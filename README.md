@@ -1,16 +1,14 @@
 
 # GolfMini
 
-A brief description of what this project does and who it's for
-
+A directory of mini golf courses where users can search, book, and review mini golf experiences
 
 ## Features
 
-- Light/dark mode toggle
-- Live previews
-- Fullscreen mode
-- Cross platform
-
+- [ ] Search by location
+- [ ] Book tee times
+- [ ] Read reviews
+- [ ] View photos
 
 ## Tech Stack
 
