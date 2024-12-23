@@ -1,0 +1,13 @@
+{
+  "name": "golfmini",
+  "version": "1.0.0",
+  "description": "A directory of mini golf courses where users can search, book, and review mini golf experiences",
+  "main": "index.js",
+  "scripts": {
+    "client": "cd client && npm run build && npm start",
+    "client:dev": "cd client && npm i && npm run dev",
+    "server": "cd server && npm i && npm start"
+  },
+  "author": "Michell Brito",
+  "license": "ISC"
+}
