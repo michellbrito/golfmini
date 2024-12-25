@@ -6,3 +6,107 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model Locations {
+  id          Int             @id @default(autoincrement())
+  city        String
+  createdAt   DateTime        @default(now())
+  description String?
+  name        String
+  state       State
+  street      String
+  updatedAt   DateTime        @default(now()) @updatedAt
+  zipcode     String
+  phoneNumber String
+  website     String?
+  type        Type?
+  theme       Theme?
+  photos      Photos[]
+  hours       BusinessHours[]
+}
+
+model Photos {
+  id         Int       @id @default(autoincrement())
+  url        String
+  uploadedAt DateTime  @default(now())
+  locationId Int
+  location   Locations @relation(fields: [locationId], references: [id])
+
+  @@index([locationId], map: "Photos_locationId_fkey")
+}
+
+model BusinessHours {
+  id         Int       @id @default(autoincrement())
+  day        String
+  openTime   String
+  closeTime  String
+  locationId Int
+  location   Locations @relation(fields: [locationId], references: [id])
+
+  @@index([locationId], map: "BusinessHours_locationId_fkey")
+}
+
+enum Type {
+  INDOOR
+  OUTDOOR
+}
+
+enum Theme {
+  PIRATE
+  JUNGLE
+  GLOW_IN_THE_DARK
+  CASTLE
+}
+
+enum State {
+  AL
+  AK
+  AZ
+  AR
+  CA
+  CO
+  CT
+  DE
+  FL
+  GA
+  HI
+  ID
+  IL
+  IN
+  IA
+  KS
+  KY
+  LA
+  ME
+  MD
+  MA
+  MI
+  MN
+  MS
+  MO
+  MT
+  NE
+  NV
+  NH
+  NJ
+  NM
+  NY
+  NC
+  ND
+  OH
+  OK
+  OR
+  PA
+  RI
+  SC
+  SD
+  TN
+  TX
+  UT
+  VT
+  VA
+  WA
+  WV
+  WI
+  WY
+}
