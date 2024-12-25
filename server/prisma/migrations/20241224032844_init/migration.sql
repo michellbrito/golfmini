@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `Locations` MODIFY `theme` ENUM('PIRATE', 'JUNGLE', 'GLOW_IN_THE_DARK', 'CASTLE') NULL;
