@@ -14,7 +14,7 @@ const limiter = rateLimit({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(limiter)
-app.use('/api', routes);
+app.use('/', routes);
 
 app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}!`);
