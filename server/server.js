@@ -1,6 +1,7 @@
 const express = require('express');
 const routes = require('./routes');
 const { rateLimit } = require('express-rate-limit');
+const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -14,6 +15,11 @@ const limiter = rateLimit({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(limiter)
+app.use(cors({
+    origin: process.env.CLIENT_URL,
+    methods: ['GET'],
+    credentials: true
+}));
 app.use('/', routes);
 
 app.listen(PORT, () => {
