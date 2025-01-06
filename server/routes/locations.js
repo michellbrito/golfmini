@@ -59,7 +59,7 @@ router.get('/', async (req, res) => {
             pageInfo: {
                 currentPage: page,
                 hasNextPage: page === -1 ? false : Math.ceil(total / limit) > page,
-                totalPages: total,
+                totalPages: Math.ceil(total / limit),
             }
         });
     } catch (error) {

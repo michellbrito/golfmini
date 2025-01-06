@@ -1,15 +1,7 @@
 .root {
-    display: flex;
-    display: flex;
     align-items: center;
-    justify-content: space-between;
-    height: 60px;
-    background-color: red;
-    padding-left: 72px;
-    padding-right: 72px;
-}
-
-.right {
+    background-color: #685752;
+    color: #FDF7F4;
     display: flex;
-    gap: 50px;
+    justify-content: center;
 }

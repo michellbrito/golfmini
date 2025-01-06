@@ -1,5 +1,27 @@
 .main {
-    display: flex;
+    display: grid;
+    grid-template-columns: 315px 1fr;
+    grid-template-rows: 1fr;
     gap: 20px;
     padding: 20px;
+    grid-template-areas: "filters gallery"
+}
+
+.filters {
+    grid-area: filters;
+}
+
+.gallery {
+    grid-area: gallery;
+}
+
+@media screen and (max-width: 900px) {
+    .main {
+        grid-template-columns: 1fr;
+        grid-template-rows: 50px 1fr;
+        grid-template-areas:
+            "filters"
+            "gallery";
+
+    }
 }
