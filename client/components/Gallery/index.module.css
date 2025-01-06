@@ -12,15 +12,21 @@
 }
 
 .card {
-    background-color: #ffffff;
-    color: #000000;
+    background-color: #FDF7F4;
+    color: #685752;
     max-width: calc(100% / 4 - 10px);
     width: 100%;
+    border: none;
 }
 
 .img {
     border-radius: 10px;
     padding: 5px;
+}
+
+.badge {
+    background-color: #685752;
+    color: #FDF7F4;
 }
 
 .loadingImg {
@@ -30,28 +36,28 @@
 
 .locationContainer {
     align-items: center;
-    color: #000000;
+    color: #685752;
     display: flex;
     gap: 5px;
 }
 
 .paginationRoot {
-    color: #000000;
+    color: #685752;
     margin-top: 50px;
 }
 
 .paginationRoot a,
 .paginationRoot span {
-    color: #000000;
+    color: #685752;
+    background-color: #FDF7F4;
+    border: none;
 }
 
-.paginationRoot a:hover {
-    background-color: #000000;
-    color: #ffffff;
-}
-
-.paginationRoot span:hover {
-    color: #ffffff;
+.paginationRoot a:hover,
+.paginationRoot span:hover,
+.activePaginationItem.activePaginationItem {
+    background-color: #685752;
+    color: #FDF7F4;
 }
 
 @media screen and (max-width: 1449px) {
@@ -63,5 +69,11 @@
 @media screen and (max-width: 1200px) {
     .card {
         max-width: calc(100% / 2 - 7px);
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .card {
+        max-width: 100%;
     }
 }

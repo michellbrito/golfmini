@@ -1,6 +1,4 @@
 "use client";
-import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
 
 // components
 import { Badge, Card, Image, Icon } from "@chakra-ui/react";
@@ -11,27 +9,27 @@ import {
   PaginationPrevTrigger,
   PaginationRoot,
 } from "@/components/ui/pagination";
-import {
-  Skeleton,
-  SkeletonText,
-} from "@/components/ui/skeleton";
+import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
+import { List } from "@chakra-ui/react";
+import { EmptyState } from "@/components/ui/empty-state";
 
 // icons
 import { GiPirateHat, GiJungle } from "react-icons/gi";
 import { MdCastle, MdLightMode } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
+import { HiColorSwatch } from "react-icons/hi";
 
 // misc
 import styles from "./index.module.css";
+import { getParams } from "@/utils";
 
-export default function Gallery() {
-  const searchParams = useSearchParams();
-  const currentPage = parseInt(searchParams.get("page")) || 1;
-
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [totalPages, setTotalPages] = useState(-1);
-
+export default function Gallery({
+  items,
+  isLoading,
+  totalPages,
+  currentPage,
+  filter,
+}) {
   function themeIcon(theme) {
     switch (theme) {
       case "PIRATE":
@@ -47,26 +45,7 @@ export default function Gallery() {
     }
   }
 
-  useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/locations?page=${currentPage}`
-        );
-        const { data, pageInfo } = await response.json();
-        setItems(data);
-        setLoading(false);
-        setTotalPages(pageInfo?.totalPages);
-      } catch (error) {
-        console.error("Error fetching items:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchItems();
-  }, []);
-
-  if (loading)
+  if (isLoading)
     return (
       <div className={styles.root}>
         <div className={styles.cardContainer}>
@@ -84,6 +63,25 @@ export default function Gallery() {
         </div>
       </div>
     );
+
+  if (!isLoading && items.length === 0) {
+    return (
+      <EmptyState
+        icon={<HiColorSwatch color="#685752" />}
+        title="No results found"
+        color="#FDF7F4"
+      >
+        <List.Root variant="marker">
+          <List.Item _marker={{ color: "#685752" }}>
+            Try removing filters
+          </List.Item>
+          <List.Item _marker={{ color: "#685752" }}>
+            Try different keywords
+          </List.Item>
+        </List.Root>
+      </EmptyState>
+    );
+  }
 
   return (
     <div className={styles.root}>
@@ -109,12 +107,12 @@ export default function Gallery() {
             </Card.Body>
             <Card.Footer gap="2">
               {type?.length && (
-                <Badge variant="solid" colorPalette="green" size="md">
+                <Badge variant="solid" className={styles.badge} size="md">
                   {type.replace().toLowerCase()}
                 </Badge>
               )}
               {theme?.length && (
-                <Badge variant="solid" colorPalette="green" size="md">
+                <Badge variant="solid" className={styles.badge} size="md">
                   {themeIcon(theme)}
                   {theme.replace(/_/g, " ").toLowerCase()}
                 </Badge>
@@ -123,20 +121,26 @@ export default function Gallery() {
           </Card.Root>
         ))}
       </div>
-      <PaginationRoot
-        className={styles.paginationRoot}
-        count={totalPages}
-        pageSize={20}
-        defaultPage={currentPage}
-        getHref={(page) => `?page=${page}`}
-        variant="solid"
-      >
-        <HStack>
-          <PaginationPrevTrigger className={styles.paginationTrigger} />
-          <PaginationItems className={styles.paginationItems} />
-          <PaginationNextTrigger className={styles.paginationTrigger} />
-        </HStack>
-      </PaginationRoot>
+      {totalPages > 1 && (
+        <PaginationRoot
+          className={styles.paginationRoot}
+          count={totalPages * 20}
+          pageSize={20}
+          page={currentPage}
+          getHref={(page) => {
+            const params = getParams(filter);
+            params.append("page", page);
+            return `?${params.toString()}`;
+          }}
+          variant="solid"
+        >
+          <HStack className={styles.paginationItems}>
+            <PaginationPrevTrigger className={styles.paginationTrigger} />
+            <PaginationItems activeClass={styles.activePaginationItem} />
+            <PaginationNextTrigger className={styles.paginationTrigger} />
+          </HStack>
+        </PaginationRoot>
+      )}
     </div>
   );
 }

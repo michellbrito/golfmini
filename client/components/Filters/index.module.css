@@ -1,4 +1,49 @@
 .root {
-    background-color: orange;
+    background-color: #FDF7F4;
+    border-radius: 10px;
+    color: #685752;
     flex-basis: 300px;
+    max-height: fit-content;
+    padding: 25px;
+    position: sticky;
+    top: 35px;
+}
+
+.root [data-part="clear-trigger"] {
+    color: red;
+}
+
+.accordionItem:last-of-type {
+    border-bottom: 0;
+}
+
+.accordionItem:last-of-type .accordionItemContent {
+    padding-bottom: 0;
+}
+
+.mobileRoot {
+    display: none;
+}
+
+.mobileContainer {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 10px;
+}
+
+.typeContainer [data-part="item-control"][data-state="checked"] {
+    color: #685752;
+    background: #8EB486;
+}
+
+@media screen and (max-width: 900px) {
+    .root.root {
+        display: none;
+    }
+
+    .mobileRoot {
+        display: flex;
+        gap: 10px;
+    }
 }
