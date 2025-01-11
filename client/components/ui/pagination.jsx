@@ -26,69 +26,66 @@ const variantMap = {
   subtle: { default: "ghost", ellipsis: "plain", current: "subtle" },
 };
 
-export const PaginationRoot = React.forwardRef(function PaginationRoot(
-  props,
-  ref
-) {
-  const { size = "sm", variant = "outline", getHref, ...rest } = props;
-  return (
-    <RootPropsProvider
-      value={{ size, variantMap: variantMap[variant], getHref }}
-    >
-      <ChakraPagination.Root
-        ref={ref}
-        type={getHref ? "link" : "button"}
-        {...rest}
-      />
-    </RootPropsProvider>
-  );
-});
-
-export const PaginationEllipsis = React.forwardRef(function PaginationEllipsis(
-  props,
-  ref
-) {
-  const { size, variantMap } = useRootProps();
-  return (
-    <ChakraPagination.Ellipsis ref={ref} {...props} asChild>
-      <Button as="span" variant={variantMap.ellipsis} size={size}>
-        <HiMiniEllipsisHorizontal />
-      </Button>
-    </ChakraPagination.Ellipsis>
-  );
-});
-
-export const PaginationItem = React.forwardRef(function PaginationItem(
-  props,
-  ref
-) {
-  const { page } = usePaginationContext();
-  const { size, variantMap, getHref } = useRootProps();
-
-  const current = page === props.value;
-  const variant = current ? variantMap.current : variantMap.default;
-
-  if (getHref) {
+export const PaginationRoot = React.forwardRef(
+  function PaginationRoot(props, ref) {
+    const { size = "sm", variant = "outline", getHref, ...rest } = props;
     return (
-      <LinkButton
-        className={current ? props.activeClass : ''}
-        href={getHref(props.value)}
-        variant={variant}
-        size={size}
+      <RootPropsProvider
+        value={{ size, variantMap: variantMap[variant], getHref }}
       >
-        {props.value}
-      </LinkButton>
+        <ChakraPagination.Root
+          ref={ref}
+          type={getHref ? "link" : "button"}
+          {...rest}
+        />
+      </RootPropsProvider>
     );
-  }
+  },
+);
 
-  return (
-    <ChakraPagination.Item ref={ref} {...props} asChild>
-      <Button variant={variant} size={size}>
-        {props.value}
-      </Button>
-    </ChakraPagination.Item>
-  );
-});
+export const PaginationEllipsis = React.forwardRef(
+  function PaginationEllipsis(props, ref) {
+    const { size, variantMap } = useRootProps();
+    return (
+      <ChakraPagination.Ellipsis ref={ref} {...props} asChild>
+        <Button as="span" variant={variantMap.ellipsis} size={size}>
+          <HiMiniEllipsisHorizontal />
+        </Button>
+      </ChakraPagination.Ellipsis>
+    );
+  },
+);
+
+export const PaginationItem = React.forwardRef(
+  function PaginationItem(props, ref) {
+    const { page } = usePaginationContext();
+    const { size, variantMap, getHref } = useRootProps();
+
+    const current = page === props.value;
+    const variant = current ? variantMap.current : variantMap.default;
+
+    if (getHref) {
+      return (
+        <LinkButton
+          className={current ? props.activeClass : ""}
+          href={getHref(props.value)}
+          variant={variant}
+          size={size}
+        >
+          {props.value}
+        </LinkButton>
+      );
+    }
+
+    return (
+      <ChakraPagination.Item ref={ref} {...props} asChild>
+        <Button variant={variant} size={size}>
+          {props.value}
+        </Button>
+      </ChakraPagination.Item>
+    );
+  },
+);
 
 export const PaginationPrevTrigger = React.forwardRef(
   function PaginationPrevTrigger(props, ref) {
@@ -114,7 +111,7 @@ export const PaginationPrevTrigger = React.forwardRef(
         </IconButton>
       </ChakraPagination.PrevTrigger>
     );
-  }
+  },
 );
 
 export const PaginationNextTrigger = React.forwardRef(
@@ -141,7 +138,7 @@ export const PaginationNextTrigger = React.forwardRef(
         </IconButton>
       </ChakraPagination.NextTrigger>
     );
-  }
+  },
 );
 
 export const PaginationItems = (props) => {
@@ -165,21 +162,20 @@ export const PaginationItems = (props) => {
   );
 };
 
-export const PaginationPageText = React.forwardRef(function PaginationPageText(
-  props,
-  ref
-) {
-  const { format = "compact", ...rest } = props;
-  const { page, totalPages, pageRange, count } = usePaginationContext();
-  const content = React.useMemo(() => {
-    if (format === "short") return `${page} / ${totalPages}`;
-    if (format === "compact") return `${page} of ${totalPages}`;
-    return `${pageRange.start + 1} - ${pageRange.end} of ${count}`;
-  }, [format, page, totalPages, pageRange, count]);
+export const PaginationPageText = React.forwardRef(
+  function PaginationPageText(props, ref) {
+    const { format = "compact", ...rest } = props;
+    const { page, totalPages, pageRange, count } = usePaginationContext();
+    const content = React.useMemo(() => {
+      if (format === "short") return `${page} / ${totalPages}`;
+      if (format === "compact") return `${page} of ${totalPages}`;
+      return `${pageRange.start + 1} - ${pageRange.end} of ${count}`;
+    }, [format, page, totalPages, pageRange, count]);
 
-  return (
-    <Text fontWeight="medium" ref={ref} {...rest}>
-      {content}
-    </Text>
-  );
-});
+    return (
+      <Text fontWeight="medium" ref={ref} {...rest}>
+        {content}
+      </Text>
+    );
+  },
+);

@@ -90,6 +90,7 @@ export default function Filters({ filter, setFilter }) {
             }}
             bgColor="#685752"
             color="#FDF7F4"
+            border="none"
             _placeholder={{ color: "#FDF7F4" }}
           />
           <IconButton
@@ -124,7 +125,12 @@ export default function Filters({ filter, setFilter }) {
           value={filter.state}
           onValueChange={(e) => setFilter({ ...filter, state: e.value })}
         >
-          <SelectTrigger clearable bgColor="#685752" borderRadius="4px">
+          <SelectTrigger
+            clearable
+            bgColor="#685752"
+            borderRadius="4px"
+            className={styles.SelectTrigger}
+          >
             <SelectValueText placeholder="Select state" color="#FDF7F4" />
           </SelectTrigger>
           <SelectContent bgColor="#685752">
@@ -168,6 +174,7 @@ export default function Filters({ filter, setFilter }) {
         >
           {radioItems.map((item) => (
             <RadioCardItem
+              border="none"
               bgColor="#685752"
               _hover={{
                 bg: "#8EB486",
@@ -217,6 +224,7 @@ export default function Filters({ filter, setFilter }) {
               bgColor="#685752"
               color="#FDF7F4"
               _hover={{ bg: "#FDF7F4", color: "#685752" }}
+              border="none"
               onClick={() => setIsDialogOpen(true)}
             >
               <FaFilter />
@@ -234,13 +242,14 @@ export default function Filters({ filter, setFilter }) {
                 color="#FDF7F4"
                 _placeholder={{ color: "#FDF7F4" }}
                 onChange={(e) => setName(e.target.value)}
+                border="none"
               />
               <NativeSelectRoot
                 bgColor="#685752"
                 color="#FDF7F4"
                 borderRadius="4px"
               >
-                <NativeSelectField placeholder="Select state">
+                <NativeSelectField placeholder="Select state" border="none">
                   {states.items.map((state) => (
                     <option value={state.value}>{state.label}</option>
                   ))}
@@ -266,6 +275,7 @@ export default function Filters({ filter, setFilter }) {
               >
                 {radioItems.map((item) => (
                   <RadioCardItem
+                    border="none"
                     bgColor="#685752"
                     _hover={{
                       bg: "#8EB486",
@@ -302,6 +312,7 @@ export default function Filters({ filter, setFilter }) {
                   bgColor="#685752"
                   color="#FDF7F4"
                   border="none"
+                  _hover={{ bg: "#8EB486", color: "#685752" }}
                   onClick={() => {
                     setName(filter.name);
                     setState(filter.state);
@@ -315,7 +326,8 @@ export default function Filters({ filter, setFilter }) {
               </DialogActionTrigger>
               <Button
                 bgColor="#8EB486"
-                color="#FDF7F4"
+                color="#685752"
+                _hover={{ bg: "#685752", color: "#FDF7F4" }}
                 onClick={() => {
                   setFilter({ ...filter, name, state, type, theme });
                   setIsDialogOpen(false);

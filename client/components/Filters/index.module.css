@@ -1,5 +1,5 @@
 .root {
-    background-color: #FDF7F4;
+    background-color: #fdf7f4;
     border-radius: 10px;
     color: #685752;
     flex-basis: 300px;
@@ -26,6 +26,10 @@
     gap: 10px;
 }
 
+.SelectTrigger button {
+    border: none;
+}
+
 .mobileRoot {
     display: none;
 }
@@ -38,8 +42,8 @@
 }
 
 .typeContainer [data-part="item-control"][data-state="checked"] {
+    background: #8eb486;
     color: #685752;
-    background: #8EB486;
 }
 
 .mobileDialogContent {
