@@ -3,6 +3,7 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  max-width: 100vw;
 }
 
 .cardContainer {
@@ -44,6 +45,7 @@
 .paginationRoot {
   color: #685752;
   margin-top: 50px;
+  max-width: calc(100vw - 40px);
 }
 
 .paginationRoot a,
@@ -67,6 +69,14 @@
   padding: 0;
 }
 
+.mobilePagination.mobilePagination {
+  display: none;
+}
+
+.desktopPagination.desktopPagination {
+  display: flex;
+}
+
 @media screen and (max-width: 1449px) {
   .card {
     max-width: calc(100% / 3 - 9px);
@@ -82,5 +92,22 @@
 @media screen and (max-width: 550px) {
   .card {
     max-width: 100%;
+  }
+
+  .cardContainer {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .paginationRoot {
+    margin-top: 25px;
+  }
+
+  .mobilePagination.mobilePagination {
+    display: flex;
+  }
+
+  .desktopPagination.desktopPagination {
+    display: none;
   }
 }

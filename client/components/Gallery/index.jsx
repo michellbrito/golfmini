@@ -5,6 +5,7 @@ import { Badge, Card, Image, Icon } from "@chakra-ui/react";
 import { HStack } from "@chakra-ui/react";
 import {
   PaginationItems,
+  PaginationPageText,
   PaginationNextTrigger,
   PaginationPrevTrigger,
   PaginationRoot,
@@ -135,7 +136,12 @@ export default function Gallery({
           }}
           variant="solid"
         >
-          <HStack className={styles.paginationItems}>
+          <HStack className={styles.mobilePagination}>
+            <PaginationPrevTrigger className={styles.paginationTrigger} />
+            <PaginationPageText className={styles.mobilePagination} />
+            <PaginationNextTrigger className={styles.paginationTrigger} />
+          </HStack>
+          <HStack className={styles.desktopPagination}>
             <PaginationPrevTrigger className={styles.paginationTrigger} />
             <PaginationItems activeClass={styles.activePaginationItem} />
             <PaginationNextTrigger className={styles.paginationTrigger} />
