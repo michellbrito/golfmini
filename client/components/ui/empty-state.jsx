@@ -1,8 +1,8 @@
-import { EmptyState as ChakraEmptyState, VStack } from '@chakra-ui/react'
-import * as React from 'react'
+import { EmptyState as ChakraEmptyState, VStack } from "@chakra-ui/react";
+import * as React from "react";
 
 export const EmptyState = React.forwardRef(function EmptyState(props, ref) {
-  const { title, description, icon, children, ...rest } = props
+  const { title, description, icon, children, ...rest } = props;
   return (
     <ChakraEmptyState.Root ref={ref} {...rest}>
       <ChakraEmptyState.Content>
@@ -10,7 +10,7 @@ export const EmptyState = React.forwardRef(function EmptyState(props, ref) {
           <ChakraEmptyState.Indicator>{icon}</ChakraEmptyState.Indicator>
         )}
         {description ? (
-          <VStack textAlign='center'>
+          <VStack textAlign="center">
             <ChakraEmptyState.Title>{title}</ChakraEmptyState.Title>
             <ChakraEmptyState.Description>
               {description}
@@ -22,5 +22,5 @@ export const EmptyState = React.forwardRef(function EmptyState(props, ref) {
         {children}
       </ChakraEmptyState.Content>
     </ChakraEmptyState.Root>
-  )
-})
+  );
+});

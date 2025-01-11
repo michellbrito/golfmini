@@ -1,7 +1,7 @@
 body {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 60px 1fr 60px;
-    background-color: #8EB486;
-    min-width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 60px 1fr 60px;
+  background-color: #8eb486;
+  min-width: 100%;
 }
