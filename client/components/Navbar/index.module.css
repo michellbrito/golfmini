@@ -4,4 +4,5 @@
   color: #fdf7f4;
   display: flex;
   justify-content: center;
+  max-width: 100vw;
 }

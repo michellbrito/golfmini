@@ -1,65 +1,66 @@
 .root {
-    background-color: #fdf7f4;
-    border-radius: 10px;
-    color: #685752;
-    flex-basis: 300px;
-    max-height: fit-content;
-    padding: 25px;
-    position: sticky;
-    top: 35px;
+  background-color: #fdf7f4;
+  border-radius: 10px;
+  color: #685752;
+  flex-basis: 300px;
+  max-height: fit-content;
+  padding: 25px;
+  position: sticky;
+  top: 35px;
 }
 
 .root [data-part="clear-trigger"] {
-    color: red;
+  color: red;
 }
 
 .accordionItem:last-of-type {
-    border-bottom: 0;
+  border-bottom: 0;
 }
 
 .accordionItem:last-of-type .accordionItemContent {
-    padding-bottom: 0;
+  padding-bottom: 0;
 }
 
 .nameContainer {
-    display: flex;
-    gap: 10px;
+  display: flex;
+  gap: 10px;
 }
 
 .SelectTrigger button {
-    border: none;
+  border: none;
 }
 
 .mobileRoot {
-    display: none;
+  display: none;
 }
 
 .mobileContainer {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 10px;
 }
 
 .typeContainer [data-part="item-control"][data-state="checked"] {
-    background: #8eb486;
-    color: #685752;
+  background: #8eb486;
+  color: #685752;
 }
 
 .mobileDialogContent {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 
 @media screen and (max-width: 900px) {
-    .root.root {
-        display: none;
-    }
+  .root.root {
+    display: none;
+  }
 
-    .mobileRoot {
-        display: flex;
-        gap: 10px;
-        justify-content: end;
-    }
+  .mobileRoot {
+    display: flex;
+    gap: 10px;
+    justify-content: end;
+    max-width: calc(100vw - 10px);
+  }
 }
