@@ -15,9 +15,11 @@ A directory of mini-golf courses where users can search
 
 ## Tech Stack
 
-**Client:** React, Chakra UI
+**Client:** React, Next.js, Chakra UI
 
 **Server:** Node, Express, Prisma
+
+**DB:** MYSQL
 
 
 ## API Reference
