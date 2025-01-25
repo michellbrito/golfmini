@@ -2,9 +2,9 @@
 # GolfMini
 
 A directory of mini-golf courses where users can search 
-| <img src="https://github.com/user-attachments/assets/fed9142b-049a-4ea0-b693-58defbebf1eb" height="800px"/>  | <img src="https://github.com/user-attachments/assets/fed9142b-049a-4ea0-b693-58defbebf1eb" height="800px"/>  |
-|:-:|:-:|
 
+
+<img src="https://github.com/user-attachments/assets/fed9142b-049a-4ea0-b693-58defbebf1eb" height="800px"/>
 
 
 
