@@ -164,7 +164,7 @@ export default function Page({ params }) {
                 loading="lazy"
                 allowFullScreen={true}
                 referrerPolicy="no-referrer-when-downgrade"
-                src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyDuTtnordK-jeDPLXkj3itLanKSmrgGlaM
+                src={`https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
     &q=${location.name} ${location.zipcode}`}
               ></iframe>
             </Card.Body>
