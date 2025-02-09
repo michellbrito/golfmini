@@ -12,12 +12,17 @@
   gap: 13px;
 }
 
-.card {
-  background-color: #fdf7f4;
-  color: #685752;
+.cardLink {
   max-width: calc(100% / 4 - 10px);
   width: 100%;
+}
+
+.card {
+  background-color: #fdf7f4;
   border: none;
+  color: #685752;
+  height: 100%;
+  width: 100%;
 }
 
 .img {
@@ -78,19 +83,19 @@
 }
 
 @media screen and (max-width: 1449px) {
-  .card {
+  .cardLink {
     max-width: calc(100% / 3 - 9px);
   }
 }
 
 @media screen and (max-width: 1200px) {
-  .card {
+  .cardLink {
     max-width: calc(100% / 2 - 7px);
   }
 }
 
 @media screen and (max-width: 550px) {
-  .card {
+  .cardLink {
     max-width: 100%;
   }
 

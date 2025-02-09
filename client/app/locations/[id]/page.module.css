@@ -1,0 +1,179 @@
+::selection {
+  background-color: #8eb486;
+}
+
+.root {
+  align-items: center;
+  color: #685752;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  justify-content: center;
+  padding-bottom: 50px;
+  padding-top: 50px;
+}
+
+.top,
+.bottom {
+  border-radius: 7px;
+  max-width: 1280px;
+  width: 90%;
+}
+
+.top {
+  background-color: #fdf7f4;
+  display: grid;
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+  grid-template-areas:
+    "a a b c"
+    "a a d e";
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  padding: 10px;
+}
+
+.img1 {
+  grid-area: a;
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
+  height: -webkit-fill-available;
+}
+
+.img2 {
+  grid-area: b;
+}
+
+.img3 {
+  grid-area: c;
+  border-top-right-radius: 7px;
+}
+
+.img4 {
+  grid-area: d;
+}
+
+.img5 {
+  grid-area: e;
+  border-bottom-right-radius: 7px;
+}
+
+.bottom {
+  display: flex;
+  gap: 20px;
+  min-height: 402px;
+}
+
+.card {
+  background-color: #fdf7f4;
+  border: none;
+  color: #685752;
+  flex: 1;
+}
+
+.cardHeader {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.cardLink {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  width: max-content;
+}
+
+.badges {
+  display: flex;
+  gap: 25px;
+}
+
+.badge {
+  background-color: #685752;
+  color: #fdf7f4;
+}
+
+.contact {
+  display: flex;
+  gap: 25px;
+}
+
+.websiteIcon {
+  height: 22px;
+  width: 22px;
+}
+
+.notFoundContainer,
+.loadingContainer {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  font-size: var(--chakra-font-sizes-4xl);
+  gap: 10px;
+  justify-content: center;
+}
+
+.slider,
+.locationInfo {
+  display: none;
+}
+
+.slider :global(li.slick-active button::before) {
+  color: #fdf7f4;
+  opacity: 1;
+}
+
+.slider :global(li:not(.slick-active) button::before) {
+  color: #685752;
+  opacity: 1;
+}
+
+@media screen and (max-width: 1200px) {
+}
+
+@media screen and (max-width: 725px) {
+  .photosContainer {
+    display: none;
+  }
+
+  .locationInfo {
+    display: block;
+  }
+
+  .slider {
+    display: block;
+    width: 100%;
+
+    & ul {
+      bottom: 10px;
+    }
+  }
+
+  .top {
+    height: fit-content;
+    display: flex;
+    width: 90vw;
+  }
+
+  .bottom {
+    flex-direction: column;
+    width: 90vw;
+  }
+
+  .card.card {
+    overflow: unset;
+  }
+
+  .img1,
+  .img2,
+  .img3,
+  .img4,
+  .img5 {
+    border-radius: 7px;
+  }
+
+  .desktopImg,
+  .locationContainer {
+    display: none;
+  }
+}

@@ -51,15 +51,17 @@ export default function Gallery({
       <div className={styles.root}>
         <div className={styles.cardContainer}>
           {Array.from({ length: 20 }, (_, i) => (
-            <Card.Root className={styles.card} key={i} overflow="hidden">
-              <Skeleton className={styles.loadingImg} height="170px" />
-              <Card.Body gap="2">
-                <SkeletonText noOfLines={2} />
-              </Card.Body>
-              <Card.Footer gap="2">
-                <SkeletonText noOfLines={1} />
-              </Card.Footer>
-            </Card.Root>
+            <div className={styles.cardLink} key={i}>
+              <Card.Root className={styles.card} overflow="hidden">
+                <Skeleton className={styles.loadingImg} height="170px" />
+                <Card.Body gap="2">
+                  <SkeletonText noOfLines={2} />
+                </Card.Body>
+                <Card.Footer gap="2">
+                  <SkeletonText noOfLines={1} />
+                </Card.Footer>
+              </Card.Root>
+            </div>
           ))}
         </div>
       </div>
@@ -89,38 +91,45 @@ export default function Gallery({
     <div className={styles.root}>
       <div className={styles.cardContainer}>
         {items.map(({ name, id, city, state, type, theme }) => (
-          <Card.Root className={styles.card} key={id} overflow="hidden">
-            <Image
-              src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-              alt="Green double couch with wooden legs"
-              aspectRatio={16 / 9}
-              className={styles.img}
-            />
-            <Card.Body gap="2">
-              <Card.Title>{name}</Card.Title>
-              <Card.Description>
-                <p className={styles.locationContainer}>
-                  <Icon fontSize="14px">
-                    <FaLocationDot />
-                  </Icon>
-                  {city}, {state}
-                </p>
-              </Card.Description>
-            </Card.Body>
-            <Card.Footer gap="2">
-              {type?.length && (
-                <Badge variant="solid" className={styles.badge} size="md">
-                  {type.replace().toLowerCase()}
-                </Badge>
-              )}
-              {theme?.length && (
-                <Badge variant="solid" className={styles.badge} size="md">
-                  {themeIcon(theme)}
-                  {theme.replace(/_/g, " ").toLowerCase()}
-                </Badge>
-              )}
-            </Card.Footer>
-          </Card.Root>
+          <a
+            href={`/locations/${id}`}
+            target="_blank"
+            className={styles.cardLink}
+            key={id}
+          >
+            <Card.Root className={styles.card} key={id} overflow="hidden">
+              <Image
+                src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+                alt="Green double couch with wooden legs"
+                aspectRatio={16 / 9}
+                className={styles.img}
+              />
+              <Card.Body gap="2">
+                <Card.Title>{name}</Card.Title>
+                <Card.Description>
+                  <p className={styles.locationContainer}>
+                    <Icon fontSize="14px">
+                      <FaLocationDot />
+                    </Icon>
+                    {city}, {state}
+                  </p>
+                </Card.Description>
+              </Card.Body>
+              <Card.Footer gap="2">
+                {type?.length && (
+                  <Badge variant="solid" className={styles.badge} size="md">
+                    {type.replace().toLowerCase()}
+                  </Badge>
+                )}
+                {theme?.length && (
+                  <Badge variant="solid" className={styles.badge} size="md">
+                    {themeIcon(theme)}
+                    {theme.replace(/_/g, " ").toLowerCase()}
+                  </Badge>
+                )}
+              </Card.Footer>
+            </Card.Root>
+          </a>
         ))}
       </div>
       {totalPages > 1 && (
