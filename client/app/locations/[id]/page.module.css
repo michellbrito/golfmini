@@ -128,8 +128,6 @@
   opacity: 1;
 }
 
-@media screen and (max-width: 1200px) {}
-
 @media screen and (max-width: 725px) {
   .photosContainer {
     display: none;
