@@ -3,7 +3,7 @@
 // libs
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
-import { getParams } from "@/utils";
+import { getParams, stateAbbreviations } from "@/utils";
 
 // components
 import Navbar from "@components/Navbar";
@@ -43,7 +43,28 @@ export default function Home() {
     }
   }, []);
 
+  const getLocalState = useCallback(async () => {
+    try {
+      const response = await fetch("https://get.geojs.io/v1/ip/geo.json");
+      const { region } = await response.json();
+      setFilter({ ...filter, state: [stateAbbreviations[region]] });
+    } catch (e) {
+      console.log(e);
+      setIsLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
+    if (
+      filter.name === "" &&
+      filter.state === "" &&
+      filter.type === "ALL" &&
+      filter.theme === "" &&
+      currentPage === 1
+    ) {
+      getLocalState();
+    }
+
     const params = getParams(filter);
     params.append("page", currentPage);
 
@@ -61,7 +82,7 @@ export default function Home() {
       "",
       paramsString.length ? `/?${paramsString}` : "/",
     );
-  }, [filter, currentPage, fetchItems]);
+  }, [filter, currentPage, fetchItems, getLocalState]);
 
   return (
     <>
