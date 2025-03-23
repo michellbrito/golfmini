@@ -22,7 +22,7 @@ import { HiColorSwatch } from "react-icons/hi";
 
 // misc
 import styles from "./index.module.css";
-import { getParams } from "@/utils";
+import { getParams, getBackground } from "@/utils";
 
 export default function Gallery({
   items,
@@ -90,7 +90,7 @@ export default function Gallery({
   return (
     <div className={styles.root}>
       <div className={styles.cardContainer}>
-        {items.map(({ name, id, city, state, type, theme }) => (
+        {items.map(({ name, id, city, state, type, theme, photos }) => (
           <a
             href={`/locations/${id}`}
             target="_blank"
@@ -99,8 +99,8 @@ export default function Gallery({
           >
             <Card.Root className={styles.card} key={id} overflow="hidden">
               <Image
-                src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-                alt="Green double couch with wooden legs"
+                src={photos.length ? photos[0].url : getBackground(type, theme)}
+                alt={`${name} banner`}
                 aspectRatio={16 / 9}
                 className={styles.img}
               />
@@ -116,12 +116,12 @@ export default function Gallery({
                 </Card.Description>
               </Card.Body>
               <Card.Footer gap="2">
-                {type?.length && (
+                {Boolean(type) && (
                   <Badge variant="solid" className={styles.badge} size="md">
                     {type.replace().toLowerCase()}
                   </Badge>
                 )}
-                {theme?.length && (
+                {Boolean(theme) && (
                   <Badge variant="solid" className={styles.badge} size="md">
                     {themeIcon(theme)}
                     {theme.replace(/_/g, " ").toLowerCase()}
