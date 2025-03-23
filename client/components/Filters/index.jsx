@@ -250,8 +250,8 @@ export default function Filters({ filter, setFilter }) {
                 borderRadius="4px"
               >
                 <NativeSelectField placeholder="Select state" border="none">
-                  {states.items.map((state) => (
-                    <option value={state.value}>{state.label}</option>
+                  {states.items.map((state, index) => (
+                    <option key={index} value={state.value}>{state.label}</option>
                   ))}
                 </NativeSelectField>
               </NativeSelectRoot>
