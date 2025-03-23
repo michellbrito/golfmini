@@ -19,10 +19,11 @@ model Locations {
   zipcode     String
   phoneNumber String
   website     String?
-  type        Type?
-  theme       Theme?
-  photos      Photos[]
+  theme       String?         @db.VarChar(255)
+  type        String?         @db.VarChar(255)
   hours       BusinessHours[]
+  photos      Photos[]
+  Pricing     Pricing[]
 }
 
 model Photos {
@@ -46,16 +47,14 @@ model BusinessHours {
   @@index([locationId], map: "BusinessHours_locationId_fkey")
 }
 
-enum Type {
-  INDOOR
-  OUTDOOR
-}
+model Pricing {
+  id         Int       @id @default(autoincrement())
+  category   String
+  amount     Float
+  locationId Int
+  Locations  Locations @relation(fields: [locationId], references: [id])
 
-enum Theme {
-  PIRATE
-  JUNGLE
-  GLOW_IN_THE_DARK
-  CASTLE
+  @@index([locationId], map: "Pricing_locationId_fkey")
 }
 
 enum State {

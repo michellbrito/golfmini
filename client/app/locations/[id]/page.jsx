@@ -18,6 +18,7 @@ import { MdOutlineLocationOff } from "react-icons/md";
 import styles from "./page.module.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { getBackground } from "@/utils";
 
 export default function Page({ params }) {
   const resolvedParams = use(params);
@@ -50,6 +51,29 @@ export default function Page({ params }) {
     arrows: false,
   };
 
+  function topContainer(styles) {
+    const classes = [styles.top];
+    switch (location.photos.length) {
+      case 0:
+      case 1:
+        classes.push(styles.grid1);
+        break;
+      case 2:
+        classes.push(styles.grid2);
+        break;
+      case 3:
+        classes.push(styles.grid3);
+        break;
+      case 4:
+        classes.push(styles.grid4);
+        break;
+      case 5:
+        classes.push(styles.grid5);
+        break;
+    }
+    return classes.join(" ");
+  }
+
   if (isLoading) {
     return (
       <>
@@ -79,23 +103,39 @@ export default function Page({ params }) {
     <>
       <Navbar />
       <div className={styles.root}>
-        <div className={styles.top}>
-          <Slider {...settings} className={styles.slider}>
-            {location.photos.map((photo, index) => (
-              <Image
-                key={index}
-                className={styles[`img${index + 1}`]}
-                src={photo.url}
-              />
-            ))}
-          </Slider>
-          {location.photos.map((photo, index) => (
+        <div className={topContainer(styles)}>
+          {location.photos.length === 0 || location.photos.length === 1 ? (
             <Image
-              key={index}
-              className={`${styles[`img${index + 1}`]} ${styles.desktopImg}`}
-              src={photo.url}
+              className={`${styles.img1} ${styles.slider}`}
+              src={getBackground(location.type, location.theme)}
             />
-          ))}
+          ) : (
+            <Slider {...settings} className={styles.slider}>
+              {location.photos.map((photo, index) => (
+                <Image
+                  key={index}
+                  className={styles[`img${index + 1}`]}
+                  src={photo.url}
+                />
+              ))}
+            </Slider>
+          )}
+          {location.photos.length === 0 ? (
+            <Image
+              className={`${styles.img1} ${styles.desktopImg}`}
+              src={getBackground(location.type, location.theme)}
+            />
+          ) : (
+            <>
+              {location.photos.map((photo, index) => (
+                <Image
+                  key={index}
+                  className={`${styles[`img${index + 1}`]} ${styles.desktopImg}`}
+                  src={photo.url}
+                />
+              ))}
+            </>
+          )}
         </div>
         <div className={styles.bottom}>
           <Card.Root className={styles.card} overflow="hidden">
@@ -104,12 +144,12 @@ export default function Page({ params }) {
             </Card.Header>
             <Card.Body gap="2">
               <div className={styles.badges}>
-                {location.type?.length && (
+                {Boolean(location.type) && (
                   <Badge variant="solid" className={styles.badge} size="md">
                     {location.type.replace().toLowerCase()}
                   </Badge>
                 )}
-                {location.theme?.length && (
+                {Boolean(location.theme) && (
                   <Badge variant="solid" className={styles.badge} size="md">
                     {location.theme.replace(/_/g, " ").toLowerCase()}
                   </Badge>
@@ -125,7 +165,11 @@ export default function Page({ params }) {
                   {location.phoneNumber}
                 </a>
                 {location.website && (
-                  <a className={styles.cardLink} href={location.website}>
+                  <a
+                    className={styles.cardLink}
+                    href={location.website}
+                    target="_blank"
+                  >
                     <TbWorldWww className={styles.websiteIcon} />
                     Website
                   </a>
@@ -142,11 +186,18 @@ export default function Page({ params }) {
               </div>
               <p className={styles.cardHeader}>Hours</p>
               <div className={styles.cardData}>
-                {location.hours.map((hour) => (
-                  <p key={hour.day}>
-                    {hour.day}: {hour.openTime} - {hour.closeTime}
-                  </p>
-                ))}
+                {location.hours?.length > 0 ? (
+                  location.hours.map((hour) => (
+                    <p key={hour.day}>
+                      {hour.day}:{" "}
+                      {hour.openTime === "CLOSED"
+                        ? "CLOSED"
+                        : `${hour.openTime} - ${hour.closeTime}`}
+                    </p>
+                  ))
+                ) : (
+                  <p>No hours available</p>
+                )}
               </div>
             </Card.Body>
           </Card.Root>
@@ -165,7 +216,7 @@ export default function Page({ params }) {
                 allowFullScreen={true}
                 referrerPolicy="no-referrer-when-downgrade"
                 src={`https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
-    &q=${location.name} ${location.zipcode}`}
+    &q=${encodeURIComponent(`${location.name} ${location.zipcode}`)}`}
               ></iframe>
             </Card.Body>
           </Card.Root>

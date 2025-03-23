@@ -7,6 +7,25 @@ export function getParams(filter) {
   return params;
 }
 
+export function getBackground(type, theme) {
+  if (theme === "PIRATE") {
+    return "/images/pirate-theme.webp";
+  }
+  if (theme === "JUNGLE") {
+    return "/images/jungle-theme.webp";
+  }
+  if (theme === "GLOW_IN_THE_DARK") {
+    return "/images/glow-theme.webp";
+  }
+  if (theme === "CASTLE") {
+    return "/images/castle-theme.webp";
+  }
+  if (type === "INDOOR") {
+    return "/images/indoor-theme.webp";
+  }
+  return "/images/outdoor-theme.webp";
+}
+
 export const stateAbbreviations = {
   Alabama: "AL",
   Alaska: "AK",
