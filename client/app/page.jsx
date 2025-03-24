@@ -10,12 +10,12 @@ import HomeContent from "@/components/HomeContent";
 
 export default function Home() {
   return (
-    <Suspense>
+    <>
       <Navbar />
       <Suspense>
         <HomeContent />
       </Suspense>
       <Footer />
-    </Suspense>
+    </>
   );
 }
