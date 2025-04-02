@@ -16,7 +16,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [totalPages, setTotalPages] = useState(-1);
   const [currentPage, setCurrentPage] = useState(
-    parseInt(searchParams.get("page")) || 1
+    parseInt(searchParams.get("page")) || 1,
   );
   const [filter, setFilter] = useState({
     name: searchParams.get("name") || "",
@@ -30,7 +30,7 @@ export default function Home() {
   const fetchItems = useCallback(async (params) => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/locations?${params.toString()}`
+        `${process.env.NEXT_PUBLIC_API_URL}/locations?${params.toString()}`,
       );
       const { data, pageInfo } = await response.json();
       setItems(data);
@@ -78,28 +78,28 @@ export default function Home() {
     window.history.replaceState(
       {},
       "",
-      paramsString.length ? `/?${paramsString}` : "/"
+      paramsString.length ? `/?${paramsString}` : "/",
     );
   }, [filter, currentPage, fetchItems, getLocalState]);
 
   return (
-      <main className={styles.main}>
-        <Filters
-          className={styles.filters}
-          filter={filter}
-          setFilter={(newFilter) => {
-            setFilter(newFilter);
-            setCurrentPage(1);
-          }}
-        />
-        <Gallery
-          className={styles.gallery}
-          items={items}
-          isLoading={isLoading}
-          totalPages={totalPages}
-          currentPage={currentPage}
-          filter={filter}
-        />
-      </main>
+    <main className={styles.main}>
+      <Filters
+        className={styles.filters}
+        filter={filter}
+        setFilter={(newFilter) => {
+          setFilter(newFilter);
+          setCurrentPage(1);
+        }}
+      />
+      <Gallery
+        className={styles.gallery}
+        items={items}
+        isLoading={isLoading}
+        totalPages={totalPages}
+        currentPage={currentPage}
+        filter={filter}
+      />
+    </main>
   );
 }

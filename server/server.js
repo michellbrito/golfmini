@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(limiter)
 app.use(cors({
-    origin: ['https://www.golfmini.com', 'https://golfmini.com', 'http://www.golfmini.com', 'http://golfmini.com'],
+    origin: ['https://www.golfmini.com', 'https://golfmini.com', 'http://www.golfmini.com', 'http://golfmini.com', 'http://localhost:3000'],
     methods: ['GET'],
     credentials: true
 }));

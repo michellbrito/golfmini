@@ -7,23 +7,29 @@ export function getParams(filter) {
   return params;
 }
 
-export function getBackground(type, theme) {
+export function getBackground(type, theme, size) {
+  let id = "";
+  const variant = size === "original" ? "public" : "w=450";
+
   if (theme === "PIRATE") {
-    return "/images/pirate-theme.webp";
+    id = "ee137469-4573-4245-35b6-0a36c9eeba00";
   }
   if (theme === "JUNGLE") {
-    return "/images/jungle-theme.webp";
+    id = "f9d2c039-e0bc-4f63-d1fd-1b63d7b35700";
   }
   if (theme === "GLOW_IN_THE_DARK") {
-    return "/images/glow-theme.webp";
+    id = "b3dbd6d6-4dcf-415d-fe59-de8c6fd22a00";
   }
   if (theme === "CASTLE") {
-    return "/images/castle-theme.webp";
+    id = "18607cac-f1cb-401d-c7bb-065ecf788700";
   }
   if (type === "INDOOR") {
-    return "/images/indoor-theme.webp";
+    id = "977f2c39-3fe6-4f16-da50-9f9ac8acbe00";
   }
-  return "/images/outdoor-theme.webp";
+  if (type === "OUTDOOR") {
+    id = "5f08ba34-94ef-421d-8fbb-dc81fde35d00";
+  }
+  return `https://imagedelivery.net/PzbMYGqgAmeY1Z0qD3tlqQ/${id}/${variant}`;
 }
 
 export const stateAbbreviations = {

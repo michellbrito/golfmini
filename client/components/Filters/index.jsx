@@ -251,7 +251,9 @@ export default function Filters({ filter, setFilter }) {
               >
                 <NativeSelectField placeholder="Select state" border="none">
                   {states.items.map((state, index) => (
-                    <option key={index} value={state.value}>{state.label}</option>
+                    <option key={index} value={state.value}>
+                      {state.label}
+                    </option>
                   ))}
                 </NativeSelectField>
               </NativeSelectRoot>

@@ -107,7 +107,7 @@ export default function Page({ params }) {
           {location.photos.length === 0 || location.photos.length === 1 ? (
             <Image
               className={`${styles.img1} ${styles.slider}`}
-              src={getBackground(location.type, location.theme)}
+              src={getBackground(location.type, location.theme, "original")}
             />
           ) : (
             <Slider {...settings} className={styles.slider}>
@@ -123,7 +123,7 @@ export default function Page({ params }) {
           {location.photos.length === 0 ? (
             <Image
               className={`${styles.img1} ${styles.desktopImg}`}
-              src={getBackground(location.type, location.theme)}
+              src={getBackground(location.type, location.theme, "original")}
             />
           ) : (
             <>
