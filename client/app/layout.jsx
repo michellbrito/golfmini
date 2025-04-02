@@ -23,6 +23,11 @@ export default function RootLayout({ children }) {
           })(window, document, "clarity", "script", "qt0vudkdqf");
         `}
       </Script>
+      <script
+        src="https://analytics.ahrefs.com/analytics.js"
+        data-key="/HDXXWP6WZ4f88SuJCf/qQ"
+        async
+      ></script>
       <body>
         <Provider>{children}</Provider>
       </body>
