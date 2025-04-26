@@ -96,6 +96,9 @@ export default function Gallery({
             target="_blank"
             className={styles.cardLink}
             key={id}
+            onClick={() => {
+              window.clarity("event", "location_card_clicked");
+            }}
           >
             <Card.Root className={styles.card} key={id} overflow="hidden">
               <Image
