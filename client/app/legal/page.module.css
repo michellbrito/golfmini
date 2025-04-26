@@ -1,0 +1,24 @@
+.termsContainer {
+  color: #fdf7f4;
+  max-width: 900px;
+
+  & h1 {
+    color: #685752;
+    font-size: 1.875rem;
+    font-weight: 600;
+  }
+
+  & h2 {
+    color: #685752;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+  }
+
+  & h3 {
+    color: #685752;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 1.25rem;
+  }
+}
