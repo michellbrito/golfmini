@@ -8,12 +8,8 @@ export default function Footer() {
         <p>© 2025 GolfMini.com ⛳</p>
       </div>
       <div className={styles.right}>
-        <p>
-          Created By{" "}
-          <Link href="https://x.com/michelldbrito" target="_blank">
-            Michell Brito
-          </Link>
-        </p>
+        <Link href="/legal/terms-conditions">Terms and Conditions</Link>
+        <Link href="/legal/privacy-policy">Privacy Policy</Link>
       </div>
     </footer>
   );
