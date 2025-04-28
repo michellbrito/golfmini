@@ -10,9 +10,12 @@
   display: flex;
   flex-wrap: wrap;
   gap: 13px;
+  height: 100%;
+  width: 100%;
 }
 
 .cardLink {
+  max-height: 372px;
   max-width: calc(100% / 4 - 10px);
   width: 100%;
 }
@@ -23,6 +26,13 @@
   color: #685752;
   height: 100%;
   width: 100%;
+}
+
+.title {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  overflow: hidden;
 }
 
 .img {
