@@ -225,7 +225,13 @@ export default function Filters({ filter, setFilter }) {
               color="#FDF7F4"
               _hover={{ bg: "#FDF7F4", color: "#685752" }}
               border="none"
-              onClick={() => setIsDialogOpen(true)}
+              onClick={() => {
+                setName(filter.name);
+                setState(filter.state);
+                setType(filter.type);
+                setTheme(filter.theme);
+                setIsDialogOpen(true);
+              }}
             >
               <FaFilter />
             </Button>
@@ -249,7 +255,12 @@ export default function Filters({ filter, setFilter }) {
                 color="#FDF7F4"
                 borderRadius="4px"
               >
-                <NativeSelectField placeholder="Select state" border="none">
+                <NativeSelectField
+                  placeholder="Select state"
+                  border="none"
+                  value={state[0]}
+                  onChange={(e) => setState([e.currentTarget.value])}
+                >
                   {states.items.map((state, index) => (
                     <option key={index} value={state.value}>
                       {state.label}
@@ -260,7 +271,7 @@ export default function Filters({ filter, setFilter }) {
               <RadioGroup
                 className={styles.typeContainer}
                 value={type}
-                onValueChange={(e) => setType(e.value)}
+                onValueChange={({ value }) => setType(value)}
               >
                 <HStack gap="6">
                   <Radio value="ALL">All</Radio>
@@ -273,7 +284,7 @@ export default function Filters({ filter, setFilter }) {
                 align="center"
                 justify="center"
                 value={theme}
-                onValueChange={({ value }) => setType(value)}
+                onValueChange={({ value }) => setTheme(value)}
               >
                 {radioItems.map((item) => (
                   <RadioCardItem
@@ -429,7 +440,7 @@ const states = createListCollection({
 const radioItems = [
   { value: "PIRATE", title: "Pirate", icon: <GiPirateHat /> },
   {
-    value: "glow_in_the_dark",
+    value: "GLOW_IN_THE_DARK",
     title: "Glow In The Dark",
     icon: <MdLightMode />,
   },

@@ -14,7 +14,7 @@ export default function Page() {
         <Text textStyle="5xl" color="#FDF7F4">
           404
         </Text>
-        <Text textStyle="5xl" color="#FDF7F4">
+        <Text textStyle="5xl" color="#FDF7F4" textAlign="center">
           Something went wrong!
         </Text>
         <Button

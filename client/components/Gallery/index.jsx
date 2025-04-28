@@ -108,7 +108,7 @@ export default function Gallery({
                 className={styles.img}
               />
               <Card.Body gap="2">
-                <Card.Title>{name}</Card.Title>
+                <Card.Title className={styles.title}>{name}</Card.Title>
                 <Card.Description>
                   <span className={styles.locationContainer}>
                     <Icon fontSize="14px">
