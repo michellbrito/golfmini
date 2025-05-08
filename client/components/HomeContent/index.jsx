@@ -16,7 +16,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [totalPages, setTotalPages] = useState(-1);
   const [currentPage, setCurrentPage] = useState(
-    parseInt(searchParams.get("page")) || 1,
+    parseInt(searchParams.get("page")) || 1
   );
   const [filter, setFilter] = useState({
     name: searchParams.get("name") || "",
@@ -30,7 +30,7 @@ export default function Home() {
   const fetchItems = useCallback(async (params) => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/locations?${params.toString()}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/locations?${params.toString()}`
       );
       const { data, pageInfo } = await response.json();
       setItems(data);
@@ -43,9 +43,40 @@ export default function Home() {
 
   const getLocalState = useCallback(async () => {
     try {
-      const response = await fetch("https://get.geojs.io/v1/ip/geo.json");
-      const { region } = await response.json();
-      setFilter({ ...filter, state: [stateAbbreviations[region]] });
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          ({ coords }) => {
+            fetch(
+              `https://nominatim.openstreetmap.org/reverse?format=json&lat=${coords.latitude}&lon=${coords.longitude}`
+            ).then((response) => {
+              response.json().then(({ address }) => {
+                setFilter({
+                  ...filter,
+                  state: [stateAbbreviations[address.state]],
+                });
+              });
+            });
+          },
+          (_error) => {
+            fetch(`https://get.geojs.io/v1/ip/geo.json`).then((response) => {
+              response.json().then(({ region }) => {
+                setFilter({ ...filter, state: [stateAbbreviations[region]] });
+              });
+            });
+          },
+          {
+            timeout: 1000,
+            enableHighAccuracy: true,
+            maximumAge: 0,
+          }
+        );
+      } else {
+        fetch(`https://get.geojs.io/v1/ip/geo.json`).then((response) => {
+          response.json().then(({ region }) => {
+            setFilter({ ...filter, state: [stateAbbreviations[region]] });
+          });
+        });
+      }
     } catch (e) {
       console.log(e);
       setIsLoading(false);
@@ -78,7 +109,7 @@ export default function Home() {
     window.history.replaceState(
       {},
       "",
-      paramsString.length ? `/?${paramsString}` : "/",
+      paramsString.length ? `/?${paramsString}` : "/"
     );
   }, [filter, currentPage, fetchItems, getLocalState]);
 
