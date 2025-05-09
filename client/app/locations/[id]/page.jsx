@@ -178,10 +178,15 @@ export default function Page({ params }) {
               <div className={styles.locationInfo}>
                 <p className={styles.cardHeader}>Location</p>
                 <div className={styles.cardData}>
-                  <p>
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${location.name} ${location.zipcode}`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.cardLink}
+                  >
                     {location.street}, {location.city}, {location.state}{" "}
                     {location.zipcode}
-                  </p>
+                  </a>
                 </div>
               </div>
               <p className={styles.cardHeader}>Hours</p>
