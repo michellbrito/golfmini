@@ -20,43 +20,6 @@
   width: 100%;
 }
 
-.card {
-  background-color: #fdf7f4;
-  border: none;
-  color: #685752;
-  height: 100%;
-  width: 100%;
-}
-
-.title {
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  display: -webkit-box;
-  overflow: hidden;
-}
-
-.img {
-  border-radius: 10px;
-  padding: 5px;
-}
-
-.badge {
-  background-color: #685752;
-  color: #fdf7f4;
-}
-
-.loadingImg {
-  border-radius: 10px;
-  margin: 5px;
-}
-
-.locationContainer {
-  align-items: center;
-  color: #685752;
-  display: flex;
-  gap: 5px;
-}
-
 .paginationRoot {
   color: #685752;
   margin-top: 50px;

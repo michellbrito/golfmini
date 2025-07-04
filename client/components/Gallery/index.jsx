@@ -1,7 +1,6 @@
 "use client";
 
 // components
-import { Badge, Card, Image, Icon } from "@chakra-ui/react";
 import { HStack } from "@chakra-ui/react";
 import {
   PaginationItems,
@@ -10,19 +9,17 @@ import {
   PaginationPrevTrigger,
   PaginationRoot,
 } from "@/components/ui/pagination";
-import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
+
 import { List } from "@chakra-ui/react";
 import { EmptyState } from "@/components/ui/empty-state";
+import LocationCard from "@/components/LocationCard/index.jsx";
 
 // icons
-import { GiPirateHat, GiJungle } from "react-icons/gi";
-import { MdCastle, MdLightMode } from "react-icons/md";
-import { FaLocationDot } from "react-icons/fa6";
 import { HiColorSwatch } from "react-icons/hi";
 
 // misc
 import styles from "./index.module.css";
-import { getParams, getBackground } from "@/utils";
+import { getParams } from "@/utils";
 
 export default function Gallery({
   items,
@@ -31,36 +28,13 @@ export default function Gallery({
   currentPage,
   filter,
 }) {
-  function themeIcon(theme) {
-    switch (theme) {
-      case "PIRATE":
-        return <GiPirateHat />;
-      case "JUNGLE":
-        return <GiJungle />;
-      case "GLOW_IN_THE_DARK":
-        return <MdLightMode />;
-      case "CASTLE":
-        return <MdCastle />;
-      default:
-        return null;
-    }
-  }
-
   if (isLoading)
     return (
       <div className={styles.root}>
         <div className={styles.cardContainer}>
           {Array.from({ length: 20 }, (_, i) => (
             <div className={styles.cardLink} key={i}>
-              <Card.Root className={styles.card} overflow="hidden">
-                <Skeleton className={styles.loadingImg} height="170px" />
-                <Card.Body gap="2">
-                  <SkeletonText noOfLines={2} />
-                </Card.Body>
-                <Card.Footer gap="2">
-                  <SkeletonText noOfLines={1} />
-                </Card.Footer>
-              </Card.Root>
+              <LocationCard isLoading />
             </div>
           ))}
         </div>
@@ -100,38 +74,17 @@ export default function Gallery({
               window.clarity("event", "location_card_clicked");
             }}
           >
-            <Card.Root className={styles.card} key={id} overflow="hidden">
-              <Image
-                src={photos.length ? photos[0].url : getBackground(type, theme)}
-                alt={`${name} banner`}
-                aspectRatio={16 / 9}
-                className={styles.img}
-              />
-              <Card.Body gap="2">
-                <Card.Title className={styles.title}>{name}</Card.Title>
-                <Card.Description>
-                  <span className={styles.locationContainer}>
-                    <Icon fontSize="14px">
-                      <FaLocationDot />
-                    </Icon>
-                    {city}, {state}
-                  </span>
-                </Card.Description>
-              </Card.Body>
-              <Card.Footer gap="2">
-                {Boolean(type) && (
-                  <Badge variant="solid" className={styles.badge} size="md">
-                    {type.replace().toLowerCase()}
-                  </Badge>
-                )}
-                {Boolean(theme) && (
-                  <Badge variant="solid" className={styles.badge} size="md">
-                    {themeIcon(theme)}
-                    {theme.replace(/_/g, " ").toLowerCase()}
-                  </Badge>
-                )}
-              </Card.Footer>
-            </Card.Root>
+            <LocationCard
+              location={{
+                name,
+                id,
+                city,
+                state,
+                type,
+                theme,
+                photos,
+              }}
+            />
           </a>
         ))}
       </div>

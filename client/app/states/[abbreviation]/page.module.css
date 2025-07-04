@@ -1,0 +1,98 @@
+.main {
+  height: 100%;
+  margin: 50px auto;
+  max-width: 1280px;
+  padding: 0 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.header {
+  text-align: center;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.section h2 {
+  color: #685752;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+}
+
+.description {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  max-width: 705px;
+  margin: 0 auto;
+}
+
+.cardContainer {
+  display: grid;
+  gap: 25px;
+  grid-auto-rows: minmax(306px, auto);
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+}
+
+.cardLink {
+  width: 100%;
+}
+
+.viewMoreCard {
+  align-items: center;
+  background-color: #fdf7f4;
+  border-radius: 6px;
+  color: #685752;
+  display: flex;
+  font-size: var(--chakra-font-sizes-lg);
+  font-weight: var(--chakra-font-weights-semibold);
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+}
+
+/* @media screen and (max-width: 550px) {
+  .cardLink {
+    max-width: 100%;
+  }
+} */
+
+@media (max-width: 768px) {
+  .main {
+    overflow: hidden;
+  }
+
+  .cardContainer {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 15px;
+    width: 100vw;
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 40px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .cardLink {
+    flex: 0 0 60vw;
+    max-width: 60vw;
+    scroll-snap-align: start;
+  }
+}

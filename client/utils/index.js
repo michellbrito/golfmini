@@ -8,7 +8,8 @@ export function getParams(filter) {
 }
 
 export function getBackground(type, theme, size) {
-  const variant = size === "original" ? "public" : "w=450";
+  const variant =
+    size === "original" ? "public" : size === "metadata" ? "w=1200" : "w=450";
   if (theme === "PIRATE") {
     return `https://imagedelivery.net/PzbMYGqgAmeY1Z0qD3tlqQ/ee137469-4573-4245-35b6-0a36c9eeba00/${variant}`;
   }
@@ -78,4 +79,8 @@ export const stateAbbreviations = {
   "West Virginia": "WV",
   Wisconsin: "WI",
   Wyoming: "WY",
+};
+
+export const IMAGE_URLS = {
+  OG: "https://imagedelivery.net/PzbMYGqgAmeY1Z0qD3tlqQ/5a285be1-b206-4e24-21a5-3c5b4ee9bf00/w=1200",
 };

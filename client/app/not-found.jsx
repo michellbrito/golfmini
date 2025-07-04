@@ -1,10 +1,8 @@
-// components
-import Navbar from "@components/Navbar";
-import Footer from "@/components/Footer";
-import { Text } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
-
-import styles from "./page.module.css";
+import { Text } from "@chakra-ui/react";
+import Footer from "@/components/Footer";
+import Navbar from "@components/Navbar";
+import styles from "./not-found.module.css";
 
 export default function Page() {
   return (
@@ -15,7 +13,7 @@ export default function Page() {
           404
         </Text>
         <Text textStyle="5xl" color="#FDF7F4" textAlign="center">
-          Something went wrong!
+          Page not found!
         </Text>
         <Button
           asChild

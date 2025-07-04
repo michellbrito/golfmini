@@ -1,16 +1,13 @@
 "use client";
 
-// libs
-import { useSearchParams } from "next/navigation";
-import { useEffect, useState, useCallback, Suspense } from "react";
 import { getParams, stateAbbreviations } from "@/utils";
-
-// components
+import { useEffect, useState, useCallback } from "react";
+import { useSearchParams } from "next/navigation";
 import Filters from "@/components/Filters";
 import Gallery from "@/components/Gallery";
 import styles from "./index.module.css";
 
-export default function Home() {
+export default function HomeContent() {
   const searchParams = useSearchParams();
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -29,15 +26,21 @@ export default function Home() {
 
   const fetchItems = useCallback(async (params) => {
     try {
+      setIsLoading(true);
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/locations?${params.toString()}`,
       );
       const { data, pageInfo } = await response.json();
       setItems(data);
-      setIsLoading(false);
       setTotalPages(pageInfo?.totalPages);
-    } catch (e) {
-      setIsLoading(false);
+    } finally {
+      const startTime = Date.now();
+      const minLoadingTime = 300;
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(0, minLoadingTime - elapsedTime);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, remainingTime);
     }
   }, []);
 
@@ -58,17 +61,18 @@ export default function Home() {
       filter.state === "" &&
       filter.type === "ALL" &&
       filter.theme === "" &&
-      currentPage === 1
+      currentPage === 1 &&
+      searchParams.get("page") === null
     ) {
       getLocalState();
     }
 
     const params = getParams(filter);
     params.append("page", currentPage);
-
-    // Fetch data
+    params.append("limit", 20);
     fetchItems(params);
 
+    params.delete("limit");
     if (currentPage <= 1) {
       params.delete("page");
     }
