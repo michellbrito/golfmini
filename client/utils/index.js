@@ -84,3 +84,11 @@ export const stateAbbreviations = {
 export const IMAGE_URLS = {
   OG: "https://imagedelivery.net/PzbMYGqgAmeY1Z0qD3tlqQ/5a285be1-b206-4e24-21a5-3c5b4ee9bf00/w=1200",
 };
+
+export function getCitySlug(cityName) {
+  return cityName
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w-]/g, "");
+}

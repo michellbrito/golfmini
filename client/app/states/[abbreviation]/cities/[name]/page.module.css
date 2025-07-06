@@ -1,0 +1,27 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  height: 100%;
+  margin: 20px auto 50px auto;
+  max-width: 1280px;
+  overflow: hidden;
+  padding: 5px 20px 0 20px;
+  width: 100%;
+}
+
+.cardContainer {
+  display: grid;
+  gap: 25px;
+  grid-auto-rows: minmax(306px, auto);
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .cardContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+}

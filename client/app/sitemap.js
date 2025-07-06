@@ -1,10 +1,16 @@
-import { stateAbbreviations } from "@/utils";
+import { stateAbbreviations, getCitySlug } from "@/utils";
 
 export default async function sitemap() {
+  const citySlugs = [];
+
   async function getLocations() {
     const locationsResponse = await fetch("https://api.golfmini.com/locations");
     const { data } = await locationsResponse.json();
     return data.map((location) => {
+      const citySlug = `${location.state.toLocaleLowerCase()}/cities/${getCitySlug(location.city)}`;
+      if (!citySlugs.includes(citySlug)) {
+        citySlugs.push(citySlug);
+      }
       return {
         url: `https://golfmini.com/locations/${location.id}`,
         lastModified: new Date(),
@@ -27,8 +33,21 @@ export default async function sitemap() {
       });
   }
 
+  function getCities() {
+    return citySlugs.map((citySlug) => {
+      return {
+        url: `https://golfmini.com/states/${citySlug}`,
+        lastModified: new Date(),
+        changeFrequency: "monthly",
+        priority: 0.7,
+      };
+    });
+  }
+
   const locations = await getLocations();
   const states = getStates();
+  const cities = getCities();
+
   return [
     {
       url: "https://golfmini.com",
@@ -38,5 +57,6 @@ export default async function sitemap() {
     },
     ...locations,
     ...states,
+    ...cities,
   ];
 }

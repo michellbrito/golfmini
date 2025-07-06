@@ -1,8 +1,6 @@
-import { IMAGE_URLS, stateAbbreviations } from "@/utils/index";
+import { IMAGE_URLS, stateAbbreviations, getCitySlug } from "@/utils/index";
 import { notFound } from "next/navigation";
-import Footer from "@/components/Footer";
 import LocationCard from "@/components/LocationCard/index.jsx";
-import Navbar from "@components/Navbar";
 import styles from "./page.module.css";
 
 export async function generateStaticParams() {
@@ -51,6 +49,7 @@ async function getStateData(abbr) {
       indoorLocations: data.indoorLocations,
       outdoorLocations: data.outdoorLocations,
       topLocations: data.topLocations,
+      cities: data.cities,
     };
   } catch (error) {
     console.error(`Error fetching data for ${abbr}:`, error);
@@ -59,6 +58,7 @@ async function getStateData(abbr) {
       indoorLocations: [],
       outdoorLocations: [],
       topLocations: [],
+      cities: [],
     };
   }
 }
@@ -93,11 +93,11 @@ export default async function Page({ params }) {
     indoorLocations,
     outdoorLocations,
     topLocations,
+    cities,
   } = await getStateData(abbr);
 
   return (
     <>
-      <Navbar />
       <main className={styles.main}>
         <header className={styles.header}>
           <h1 className={styles.title}>Mini Golf in {stateFullName}</h1>
@@ -240,8 +240,22 @@ export default async function Page({ params }) {
             </div>
           </section>
         )}
+
+        <section aria-labelledby="cities" className={styles.section}>
+          <h2>{stateFullName} Mini Golf Courses by City</h2>
+          <ul className={styles.cityContainer}>
+            {cities.map((city) => (
+              <li key={city}>
+                <a
+                  href={`/states/${abbreviation.toLowerCase()}/cities/${getCitySlug(city)}`}
+                >
+                  Mini Golf {city} {abbreviation.toUpperCase()}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
       </main>
-      <Footer />
     </>
   );
 }

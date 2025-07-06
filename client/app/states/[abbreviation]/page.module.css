@@ -1,12 +1,13 @@
 .main {
-  height: 100%;
-  margin: 50px auto;
-  max-width: 1280px;
-  padding: 0 20px;
-  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 50px;
+  height: 100%;
+  margin: 50px auto;
+  max-width: 1280px;
+  overflow: hidden;
+  padding: 0 20px;
+  width: 100%;
 }
 
 .header {
@@ -65,17 +66,22 @@
   width: 100%;
 }
 
-/* @media screen and (max-width: 550px) {
-  .cardLink {
-    max-width: 100%;
+.cityContainer {
+  display: grid;
+  gap: 5px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.cityContainer li {
+  color: #fdf7f4;
+  width: fit-content;
+
+  &:hover {
+    color: #685752;
   }
-} */
+}
 
 @media (max-width: 768px) {
-  .main {
-    overflow: hidden;
-  }
-
   .cardContainer {
     display: flex;
     flex-direction: row;
@@ -94,5 +100,13 @@
     flex: 0 0 60vw;
     max-width: 60vw;
     scroll-snap-align: start;
+  }
+
+  .cityContainer {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cityContainer a {
+    text-align: center;
   }
 }

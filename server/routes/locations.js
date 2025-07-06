@@ -28,14 +28,23 @@ router.get('/', async (req, res) => {
         filter.state = state;
     }
 
-    if (city.length >= 1) {
-        filter.city = city;
+    if (name.length >= 1) {
+        filter.OR = [
+            {
+                name: {
+                    contains: name,
+                }
+            },
+            {
+                city: {
+                    contains: name,
+                }
+            }
+        ];
     }
 
-    if (name.length >= 1) {
-        filter.name = {
-            contains: name,
-        };
+    if (city.length >= 1) {
+        filter.city = city;
     }
 
     // add pagination
@@ -95,35 +104,51 @@ router.get('/:id', async (req, res) => {
 
 router.get('/state/:name', async (req, res) => {
     const { name } = req.params;
-    const { limit = 5 } = req.query;
+    const { limit = 5, city } = req.query;
     const state = name.toUpperCase();
+    const filter = { state };
+
+    if (Boolean(city)) {
+        filter.city = city.replaceAll('-', ' ');
+    }
 
     try {
         const topLocations = await prisma.locations.findMany({
-            where: { state },
+            where: filter,
             include: locationRelationship,
             take: Number(limit)
         });
 
         const usedIds = topLocations.map(loc => loc.id);
         const glowInTheDarkLocations = await prisma.locations.findMany({
-            where: { state, theme: 'glow_in_the_dark' },
+            where: { ...filter, theme: 'glow_in_the_dark', id: { notIn: usedIds } },
             include: locationRelationship,
             take: Number(limit)
         });
 
         usedIds.push(...glowInTheDarkLocations.map(loc => loc.id));
         const indoorLocations = await prisma.locations.findMany({
-            where: { state, type: 'indoor', id: { notIn: usedIds } },
+            where: { ...filter, type: 'indoor', id: { notIn: usedIds } },
             include: locationRelationship,
             take: Number(limit)
         });
 
         usedIds.push(...indoorLocations.map(loc => loc.id));
         const outdoorLocations = await prisma.locations.findMany({
-            where: { state, type: 'outdoor', id: { notIn: usedIds } },
+            where: { ...filter, type: 'outdoor', id: { notIn: usedIds } },
             include: locationRelationship,
             take: Number(limit)
+        });
+
+        const cities = await prisma.locations.findMany({
+            where: { state },
+            select: {
+                city: true
+            },
+            distinct: ['city'],
+            orderBy: {
+                city: 'asc'
+            }
         });
 
         res.status(200).json({
@@ -131,6 +156,7 @@ router.get('/state/:name', async (req, res) => {
             indoorLocations: !indoorLocations ? [] : indoorLocations,
             outdoorLocations: !outdoorLocations ? [] : outdoorLocations,
             topLocations: !topLocations ? [] : topLocations,
+            cities: !cities ? [] : cities.map(({ city }) => city),
         });
     } catch (error) {
         console.error(error);
