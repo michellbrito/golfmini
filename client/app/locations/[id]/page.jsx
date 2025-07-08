@@ -6,19 +6,21 @@ import Navbar from "@components/Navbar";
 async function fetchLocationData(id) {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/locations/${id}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/locations/${id}`
     );
     const { location } = await res.json();
     if (location.photos.length === 0) {
       location.photos = [
-        getBackground(location.type, location.theme, "metadata"),
+        {
+          url: getBackground(location.type, location.theme, "metadata"),
+        },
       ];
     }
     return location;
   } catch (error) {
     return {
       name: "Location Not Found",
-      photos: [IMAGE_URLS.OG],
+      photos: [{ url: IMAGE_URLS.OG }],
     };
   }
 }
@@ -36,7 +38,7 @@ export async function generateMetadata({ params }) {
       siteName: "GolfMini",
       images: [
         {
-          url: data.photos[0],
+          url: data.photos[0].url,
           width: 1200,
           height: 630,
         },
