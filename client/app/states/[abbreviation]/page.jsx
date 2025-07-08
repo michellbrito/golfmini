@@ -1,6 +1,11 @@
-import { IMAGE_URLS, stateAbbreviations, getCitySlug } from "@/utils/index";
+import {
+  IMAGE_URLS,
+  stateAbbreviations,
+  getStateFullName,
+} from "@/utils/index";
 import { notFound } from "next/navigation";
-import LocationCard from "@/components/LocationCard/index.jsx";
+import CitiesList from "@/components/CitiesList";
+import LocationCard from "@/components/LocationCard";
 import styles from "./page.module.css";
 
 export async function generateStaticParams() {
@@ -12,9 +17,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { abbreviation } = await params;
   const abbr = abbreviation.toUpperCase();
-  const stateFullName = Object.keys(stateAbbreviations).find(
-    (state) => stateAbbreviations[state] === abbr,
-  );
+  const stateFullName = getStateFullName(abbr);
 
   const title = `Mini Golf ${stateFullName} | GolfMini`;
 
@@ -80,9 +83,7 @@ export default async function Page({ params }) {
   const { abbreviation } = await params;
   const abbr = abbreviation.toUpperCase();
 
-  const stateFullName = Object.keys(stateAbbreviations).find(
-    (state) => stateAbbreviations[state] === abbr,
-  );
+  const stateFullName = getStateFullName(abbr);
 
   if (!stateFullName) {
     notFound();
@@ -241,20 +242,7 @@ export default async function Page({ params }) {
           </section>
         )}
 
-        <section aria-labelledby="cities" className={styles.section}>
-          <h2>{stateFullName} Mini Golf Courses by City</h2>
-          <ul className={styles.cityContainer}>
-            {cities.map((city) => (
-              <li key={city}>
-                <a
-                  href={`/states/${abbreviation.toLowerCase()}/cities/${getCitySlug(city)}`}
-                >
-                  Mini Golf {city} {abbreviation.toUpperCase()}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <CitiesList cities={cities} state={stateFullName} />
       </main>
     </>
   );

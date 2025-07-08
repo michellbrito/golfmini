@@ -1,17 +1,20 @@
-import LocationPage from "./location";
-import { IMAGE_URLS } from "@/utils";
-import { getBackground } from "@/utils";
+import { IMAGE_URLS, getBackground } from "@/utils";
+import Footer from "@/components/Footer";
+import Location from "./location";
+import Navbar from "@components/Navbar";
 
 async function fetchLocationData(id) {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/locations/${id}`,
     );
-    const data = await res.json();
-    if (data.photos.length === 0) {
-      data.photos = [getBackground(data.type, data.theme, "metadata")];
+    const { location } = await res.json();
+    if (location.photos.length === 0) {
+      location.photos = [
+        getBackground(location.type, location.theme, "metadata"),
+      ];
     }
-    return data;
+    return location;
   } catch (error) {
     return {
       name: "Location Not Found",
@@ -44,5 +47,11 @@ export async function generateMetadata({ params }) {
 
 export default async function Page({ params }) {
   const { id } = await params;
-  return <LocationPage id={id} />;
+  return (
+    <>
+      <Navbar />
+      <Location id={id} />
+      <Footer />
+    </>
+  );
 }

@@ -92,3 +92,9 @@ export function getCitySlug(cityName) {
     .replace(/\s+/g, "-")
     .replace(/[^\w-]/g, "");
 }
+
+export function getStateFullName(abbr) {
+  return Object.keys(stateAbbreviations).find(
+    (state) => stateAbbreviations[state] === abbr,
+  );
+}

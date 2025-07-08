@@ -1,0 +1,37 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.section h2 {
+  color: #685752;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.container {
+  display: grid;
+  gap: 5px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.container li {
+  color: #fdf7f4;
+  width: fit-content;
+
+  &:hover {
+    color: #685752;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .container a {
+    text-align: center;
+  }
+}

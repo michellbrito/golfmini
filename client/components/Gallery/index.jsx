@@ -12,7 +12,7 @@ import {
 
 import { List } from "@chakra-ui/react";
 import { EmptyState } from "@/components/ui/empty-state";
-import LocationCard from "@/components/LocationCard/index.jsx";
+import LocationCard from "@/components/LocationCard";
 
 // icons
 import { HiColorSwatch } from "react-icons/hi";

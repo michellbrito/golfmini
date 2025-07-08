@@ -82,7 +82,6 @@ router.get('/', async (req, res) => {
     }
 })
 
-
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
 
@@ -96,7 +95,18 @@ router.get('/:id', async (req, res) => {
             return res.status(404).json({ error: 'Location not found' });
         }
 
-        res.status(200).json(location);
+        const cities = await prisma.locations.findMany({
+            where: { state: location.state },
+            select: {
+                city: true
+            },
+            distinct: ['city'],
+            orderBy: {
+                city: 'asc'
+            }
+        });
+
+        res.status(200).json({ location, cities: !cities ? [] : cities.map(({ city }) => city) });
     } catch (error) {
         res.status(500).json({ error: 'An error occurred while fetching the location.' });
     }

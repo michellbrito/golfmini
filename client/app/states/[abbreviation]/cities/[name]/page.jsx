@@ -1,9 +1,10 @@
 import { IMAGE_URLS, stateAbbreviations, getCitySlug } from "@/utils/index";
 import { notFound } from "next/navigation";
-import LocationCard from "@/components/LocationCard/index.jsx";
+import LocationCard from "@/components/LocationCard";
 import stateStyles from "@/app/states/[abbreviation]/page.module.css";
 import styles from "./page.module.css";
 import { Breadcrumb } from "@chakra-ui/react";
+import CitiesList from "@/components/CitiesList";
 
 function getCityName(city) {
   return city
@@ -122,7 +123,6 @@ export default async function Page({ params }) {
             plan your visit
           </p>
         </header>
-
         {Boolean(locations.length) && (
           <div className={styles.cardContainer}>
             {locations.map(({ name, id, city, state, type, theme, photos }) => (
@@ -147,21 +147,7 @@ export default async function Page({ params }) {
             ))}
           </div>
         )}
-
-        <section aria-labelledby="cities" className={stateStyles.section}>
-          <h2>{stateFullName} Mini Golf Courses by City</h2>
-          <ul className={stateStyles.cityContainer}>
-            {cities.map((city) => (
-              <li key={city}>
-                <a
-                  href={`/states/${abbreviation.toLowerCase()}/cities/${getCitySlug(city)}`}
-                >
-                  Mini Golf {city} {abbreviation.toUpperCase()}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <CitiesList cities={cities} state={stateFullName} />
       </main>
     </>
   );

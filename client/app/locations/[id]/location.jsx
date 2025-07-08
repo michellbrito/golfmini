@@ -1,28 +1,22 @@
 "use client";
-import { useEffect, useState, use } from "react";
-
-// components
-import { Badge, Card, Image } from "@chakra-ui/react";
-import { Spinner } from "@chakra-ui/react";
-import { Text } from "@chakra-ui/react";
-import Footer from "@/components/Footer";
-import Navbar from "@components/Navbar";
-import Slider from "react-slick";
-
-// icons
-import { FaPhoneAlt } from "react-icons/fa";
-import { TbWorldWww } from "react-icons/tb";
-import { MdOutlineLocationOff } from "react-icons/md";
-
-// misc
-import styles from "./location.module.css";
-import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { getBackground } from "@/utils";
+import "slick-carousel/slick/slick.css";
+import { Badge, Card, Image } from "@chakra-ui/react";
+import { FaPhoneAlt } from "react-icons/fa";
+import { getBackground, getStateFullName } from "@/utils";
+import { MdOutlineLocationOff } from "react-icons/md";
+import { Spinner } from "@chakra-ui/react";
+import { TbWorldWww } from "react-icons/tb";
+import { Text } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import CitiesList from "@/components/CitiesList";
+import Slider from "react-slick";
+import styles from "./location.module.css";
 
 export default function Layout({ id }) {
-  const [location, setLocation] = useState(null);
+  const [cities, setCities] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [location, setLocation] = useState(null);
 
   useEffect(() => {
     const fetchLocation = async () => {
@@ -31,7 +25,8 @@ export default function Layout({ id }) {
           `${process.env.NEXT_PUBLIC_API_URL}/locations/${id}`,
         );
         const data = await response.json();
-        setLocation(data.error ? null : data);
+        setLocation(data.error ? null : data.location);
+        setCities(data.error ? null : data.cities);
         setIsLoading(false);
       } catch (e) {
         setIsLoading(false);
@@ -75,11 +70,9 @@ export default function Layout({ id }) {
   if (isLoading) {
     return (
       <>
-        <Navbar />
         <div className={styles.loadingContainer}>
           <Spinner size="xl" color={"#FDF7F4"} borderWidth="3px" />
         </div>
-        <Footer />
       </>
     );
   }
@@ -87,19 +80,16 @@ export default function Layout({ id }) {
   if (!location) {
     return (
       <>
-        <Navbar />
         <div className={styles.notFoundContainer}>
           <MdOutlineLocationOff color="#685752" />
           <p>Location not found</p>
         </div>
-        <Footer />
       </>
     );
   }
 
   return (
     <>
-      <Navbar />
       <div className={styles.root}>
         <div className={topContainer(styles)}>
           {location.photos.length === 0 || location.photos.length === 1 ? (
@@ -224,8 +214,12 @@ export default function Layout({ id }) {
             </Card.Body>
           </Card.Root>
         </div>
+        <CitiesList
+          className={styles.citiesList}
+          cities={cities}
+          state={getStateFullName(location.state)}
+        />
       </div>
-      <Footer />
     </>
   );
 }
