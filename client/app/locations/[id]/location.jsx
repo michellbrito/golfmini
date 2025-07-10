@@ -1,7 +1,8 @@
 "use client";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import { Badge, Card, Image } from "@chakra-ui/react";
+import { Badge, Card, Image, Tabs } from "@chakra-ui/react";
+import { FaLocationDot } from "react-icons/fa6";
 import { FaPhoneAlt } from "react-icons/fa";
 import { getBackground, getStateFullName } from "@/utils";
 import { MdOutlineLocationOff } from "react-icons/md";
@@ -10,6 +11,7 @@ import { TbWorldWww } from "react-icons/tb";
 import { Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import CitiesList from "@/components/CitiesList";
+import LocationCard from "@/components/LocationCard";
 import Slider from "react-slick";
 import styles from "./location.module.css";
 
@@ -17,17 +19,26 @@ export default function Layout({ id }) {
   const [cities, setCities] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [location, setLocation] = useState(null);
+  const [nearbyLocations, setNearbyLocations] = useState(null);
+  const [value, setValue] = useState("overview");
 
   useEffect(() => {
     const fetchLocation = async () => {
       try {
-        const response = await fetch(
+        const locationResponse = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/locations/${id}`,
         );
-        const data = await response.json();
-        setLocation(data.error ? null : data.location);
-        setCities(data.error ? null : data.cities);
+        const locationData = await locationResponse.json();
+        const nearbyLocationsResponse = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/locations/nearby?zipcode=${locationData.location.zipcode}&state=${locationData.location.state}`,
+        );
+        const nearbyLocationsData = await nearbyLocationsResponse.json();
+        setLocation(locationData.error ? null : locationData.location);
+        setCities(locationData.error ? null : locationData.cities);
         setIsLoading(false);
+        setNearbyLocations(
+          nearbyLocationsData.error ? null : nearbyLocationsData,
+        );
       } catch (e) {
         setIsLoading(false);
       }
@@ -126,92 +137,142 @@ export default function Layout({ id }) {
           )}
         </div>
         <div className={styles.bottom}>
-          <Card.Root className={styles.card} overflow="hidden">
-            <Card.Header className={styles.cardHeader} gap="2">
-              <Text textStyle="xl">{location?.name}</Text>
-            </Card.Header>
-            <Card.Body gap="2">
-              <div className={styles.badges}>
-                {Boolean(location.type) && (
-                  <Badge variant="solid" className={styles.badge} size="md">
-                    {location.type.replace().toLowerCase()}
-                  </Badge>
-                )}
-                {Boolean(location.theme) && (
-                  <Badge variant="solid" className={styles.badge} size="md">
-                    {location.theme.replace(/_/g, " ").toLowerCase()}
-                  </Badge>
-                )}
-              </div>
-              <p className={styles.cardHeader}>Contact</p>
-              <div className={styles.contact}>
-                <a
-                  href={`tel:${location.phoneNumber}`}
-                  className={styles.cardLink}
+          <Card.Root className={styles.card}>
+            <Tabs.Root
+              value={value}
+              onValueChange={(e) => setValue(e.value)}
+              fitted
+              variant={"outline"}
+            >
+              <Tabs.List>
+                <Tabs.Trigger className={styles.tabTrigger} value="overview">
+                  Overview
+                </Tabs.Trigger>
+                <Tabs.Trigger
+                  className={styles.tabTrigger}
+                  value="nearbyLocations"
                 >
-                  <FaPhoneAlt />
-                  {location.phoneNumber}
-                </a>
-                {location.website && (
-                  <a
-                    className={styles.cardLink}
-                    href={location.website}
-                    target="_blank"
+                  Nearby Locations
+                </Tabs.Trigger>
+              </Tabs.List>
+
+              <Tabs.Content value="overview" className={styles.tabContent}>
+                <div className={styles.contentGrid}>
+                  <Text
+                    className={`${styles.name} ${styles.cardHeader}`}
+                    textStyle="xl"
                   >
-                    <TbWorldWww className={styles.websiteIcon} />
-                    Website
-                  </a>
-                )}
-              </div>
-              <div className={styles.locationInfo}>
-                <p className={styles.cardHeader}>Location</p>
-                <div className={styles.cardData}>
-                  <a
-                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${location.name} ${location.zipcode}`)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.cardLink}
-                  >
-                    {location.street}, {location.city}, {location.state}{" "}
-                    {location.zipcode}
-                  </a>
-                </div>
-              </div>
-              <p className={styles.cardHeader}>Hours</p>
-              <div className={styles.cardData}>
-                {location.hours?.length > 0 ? (
-                  location.hours.map((hour) => (
-                    <p key={hour.day}>
-                      {hour.day}:{" "}
-                      {hour.openTime === "CLOSED"
-                        ? "CLOSED"
-                        : `${hour.openTime} - ${hour.closeTime}`}
-                    </p>
-                  ))
-                ) : (
-                  <p>No hours available</p>
-                )}
-              </div>
-            </Card.Body>
-          </Card.Root>
-          <Card.Root
-            className={`${styles.card} ${styles.locationContainer}`}
-            overflow="hidden"
-          >
-            <Card.Header className={styles.cardHeader} gap="2">
-              <Text textStyle="xl">Location</Text>
-            </Card.Header>
-            <Card.Body gap="2">
-              <iframe
-                width="100%"
-                height="100%"
-                loading="lazy"
-                allowFullScreen={true}
-                referrerPolicy="no-referrer-when-downgrade"
-                src={`https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
+                    {location?.name}
+                  </Text>
+                  <div className={styles.badges}>
+                    {Boolean(location.type) && (
+                      <Badge variant="solid" className={styles.badge} size="md">
+                        {location.type.replace().toLowerCase()}
+                      </Badge>
+                    )}
+                    {Boolean(location.theme) && (
+                      <Badge variant="solid" className={styles.badge} size="md">
+                        {location.theme.replace(/_/g, " ").toLowerCase()}
+                      </Badge>
+                    )}
+                  </div>
+                  <div className={styles.contactContainer}>
+                    <p className={styles.cardHeader}>Contact</p>
+                    <div className={styles.contact}>
+                      <a
+                        href={`tel:${location.phoneNumber}`}
+                        className={styles.cardLink}
+                      >
+                        <FaPhoneAlt />
+                        {location.phoneNumber}
+                      </a>
+                      {location.website && (
+                        <a
+                          className={styles.cardLink}
+                          href={location.website}
+                          target="_blank"
+                        >
+                          <TbWorldWww className={styles.websiteIcon} />
+                          Website
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                  <div className={styles.hoursContainer}>
+                    <p className={styles.cardHeader}>Hours</p>
+                    <div className={styles.cardData}>
+                      {location.hours?.length > 0 ? (
+                        location.hours.map((hour) => (
+                          <p key={hour.day}>
+                            {hour.day}:{" "}
+                            {hour.openTime === "CLOSED"
+                              ? "CLOSED"
+                              : `${hour.openTime} - ${hour.closeTime}`}
+                          </p>
+                        ))
+                      ) : (
+                        <p>No hours available</p>
+                      )}
+                    </div>
+                  </div>
+                  <div className={styles.locationInfo}>
+                    <p className={styles.cardHeader}>Location</p>
+                    <div className={styles.cardData}>
+                      <a
+                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${location.name} ${location.zipcode}`)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.cardLink}
+                      >
+                        <FaLocationDot />
+                        {location.street}, {location.city}, {location.state}{" "}
+                        {location.zipcode}
+                      </a>
+                      <iframe
+                        width="100%"
+                        height="100%"
+                        loading="lazy"
+                        allowFullScreen={true}
+                        referrerPolicy="no-referrer-when-downgrade"
+                        src={`https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
     &q=${encodeURIComponent(`${location.name} ${location.zipcode}`)}`}
-              ></iframe>
-            </Card.Body>
+                      ></iframe>
+                    </div>
+                  </div>
+                </div>
+              </Tabs.Content>
+              <Tabs.Content
+                value="nearbyLocations"
+                className={styles.tabContent}
+              >
+                <div className={styles.nearbyLocationsContainer}>
+                  {nearbyLocations.map(
+                    ({ name, id, city, state, type, theme, photos }) => (
+                      <a
+                        href={`/locations/${id}`}
+                        target="_blank"
+                        className={styles.locationLink}
+                        key={id}
+                      >
+                        <LocationCard
+                          colorMode="dark"
+                          location={{
+                            name,
+                            id,
+                            city,
+                            state,
+                            type,
+                            theme,
+                            photos,
+                          }}
+                        />
+                      </a>
+                    ),
+                  )}
+                  {/* <ViewAllCard query={{ state: abbreviation.toUpperCase() }} /> */}
+                </div>
+              </Tabs.Content>
+            </Tabs.Root>
           </Card.Root>
         </div>
         <CitiesList

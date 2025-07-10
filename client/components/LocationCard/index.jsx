@@ -21,10 +21,13 @@ function themeIcon(theme) {
   }
 }
 
-export default function LocationCard({ isLoading, location }) {
+export default function LocationCard({ isLoading, location, colorMode }) {
   if (isLoading) {
     return (
-      <Card.Root className={styles.card} overflow="hidden">
+      <Card.Root
+        className={`${styles.card} ${colorMode === "dark" ? styles.dark : styles.light}`}
+        overflow="hidden"
+      >
         <Skeleton className={styles.loadingImg} height="170px" />
         <Card.Body gap="2">
           <SkeletonText noOfLines={2} />
@@ -37,7 +40,10 @@ export default function LocationCard({ isLoading, location }) {
   }
 
   return (
-    <Card.Root className={styles.card} overflow="hidden">
+    <Card.Root
+      className={`${styles.card} ${colorMode === "dark" ? styles.dark : styles.light}`}
+      overflow="hidden"
+    >
       <Image
         src={
           location.photos.length

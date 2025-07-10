@@ -1,5 +1,6 @@
 const router = require('express').Router();
-const { locationRelationship, prisma, VALID_TYPES, VALID_THEMES, VALID_STATES } = require('#utils/db.js');
+const zipcodes = require('zipcodes');
+const { locationRelationship, prisma, VALID_TYPES, VALID_THEMES, VALID_STATES, getDistance } = require('#utils/db.js');
 
 router.get('/', async (req, res) => {
     let { type = "", theme = "", state = "", city = "", name = "", page = -1, limit = -1 } = req.query;
@@ -82,36 +83,6 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.get('/:id', async (req, res) => {
-    const { id } = req.params;
-
-    try {
-        const location = await prisma.locations.findUnique({
-            where: { id: parseInt(id) },
-            include: locationRelationship,
-        });
-
-        if (!location) {
-            return res.status(404).json({ error: 'Location not found' });
-        }
-
-        const cities = await prisma.locations.findMany({
-            where: { state: location.state },
-            select: {
-                city: true
-            },
-            distinct: ['city'],
-            orderBy: {
-                city: 'asc'
-            }
-        });
-
-        res.status(200).json({ location, cities: !cities ? [] : cities.map(({ city }) => city) });
-    } catch (error) {
-        res.status(500).json({ error: 'An error occurred while fetching the location.' });
-    }
-});
-
 router.get('/state/:name', async (req, res) => {
     const { name } = req.params;
     const { limit = 5, city } = req.query;
@@ -170,6 +141,70 @@ router.get('/state/:name', async (req, res) => {
         });
     } catch (error) {
         console.error(error);
+        res.status(500).json({ error: 'An error occurred while fetching the location.' });
+    }
+});
+
+router.get('/nearby', async (req, res) => {
+    try {
+        const { zipcode, state, limit = 6 } = req.query;
+        const limitNum = Math.max(1, Number(limit) || 6);
+        if (!zipcode || !state) {
+            return res.status(400).json({ error: 'Missing zipcode or state' });
+        }
+
+        const loc = zipcodes.lookup(zipcode);
+        if (!loc) {
+            return res.status(400).json({ error: 'Invalid zipcode' });
+        }
+        const { latitude, longitude } = loc;
+
+        const locations = await prisma.locations.findMany({
+            where: { state },
+            include: locationRelationship,
+        });
+
+        const nearby = locations
+            .map((l) => {
+                const z = zipcodes.lookup(l.zipcode);
+                return { ...l, distance: getDistance(z.latitude, z.longitude, latitude, longitude) };
+            })
+            .sort((a, b) => a.distance - b.distance)
+            .slice(0, limitNum);
+
+        res.status(200).json(nearby);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'An error occurred while fetching the location.' });
+    }
+});
+
+router.get('/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const location = await prisma.locations.findUnique({
+            where: { id: parseInt(id) },
+            include: locationRelationship,
+        });
+
+        if (!location) {
+            return res.status(404).json({ error: 'Location not found' });
+        }
+
+        const cities = await prisma.locations.findMany({
+            where: { state: location.state },
+            select: {
+                city: true
+            },
+            distinct: ['city'],
+            orderBy: {
+                city: 'asc'
+            }
+        });
+
+        res.status(200).json({ location, cities: !cities ? [] : cities.map(({ city }) => city) });
+    } catch (error) {
         res.status(500).json({ error: 'An error occurred while fetching the location.' });
     }
 });

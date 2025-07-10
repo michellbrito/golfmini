@@ -1,7 +1,17 @@
+.light {
+  --bg-color: #fdf7f4;
+  --txt-color: #685752;
+}
+
+.dark {
+  --bg-color: #685752;
+  --txt-color: #fdf7f4;
+}
+
 .card {
-  background-color: #fdf7f4;
+  background-color: var(--bg-color);
   border: none;
-  color: #685752;
+  color: var(--txt-color);
   height: 100%;
   width: 100%;
 }
@@ -20,14 +30,14 @@
 
 .locationContainer {
   align-items: center;
-  color: #685752;
+  color: var(--txt-color);
   display: flex;
   gap: 5px;
 }
 
 .badge {
-  background-color: #685752;
-  color: #fdf7f4;
+  background-color: var(--txt-color);
+  color: var(--bg-color);
 }
 
 .loadingImg {

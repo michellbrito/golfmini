@@ -137,7 +137,6 @@
 .bottom {
   display: flex;
   gap: 20px;
-  min-height: 402px;
 }
 
 .card {
@@ -149,7 +148,6 @@
 
 .cardHeader {
   font-weight: bold;
-  margin-top: 10px;
 }
 
 .cardLink {
@@ -160,14 +158,44 @@
   width: max-content;
 }
 
+.locationLink {
+  width: 100%;
+}
+
+.tabContent {
+  padding: 24px;
+}
+
+.tabTrigger {
+  color: #685752;
+  font-weight: 600;
+}
+
+.tabTrigger[data-selected] {
+  background: #685752;
+  color: #fdf7f4;
+}
+
+.nearbyLocationsContainer {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr 1fr 1fr;
+  width: 100%;
+}
+
 .badges {
   display: flex;
   gap: 25px;
+  grid-area: badges;
 }
 
 .badge {
   background-color: #685752;
   color: #fdf7f4;
+}
+
+.contactContainer {
+  grid-area: contact;
 }
 
 .contact {
@@ -180,6 +208,10 @@
   width: 22px;
 }
 
+.hoursContainer {
+  grid-area: hours;
+}
+
 .notFoundContainer,
 .loadingContainer {
   align-items: center;
@@ -190,8 +222,7 @@
   justify-content: center;
 }
 
-.slider.slider,
-.locationInfo {
+.slider.slider {
   display: none;
 }
 
@@ -214,13 +245,46 @@
   width: 100%;
 }
 
-@media screen and (max-width: 725px) {
+.contentGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "name location"
+    "badges location"
+    "contact location"
+    "hours location";
+  gap: 20px;
+}
+
+.locationInfo {
+  grid-area: location;
+}
+
+.name {
+  grid-area: name;
+}
+
+.locationInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.locationInfo .cardHeader {
+  margin-top: 0;
+}
+
+.cardData {
+  height: calc(100% - 57px);
+}
+
+.cardData iframe {
+  margin-top: 10px;
+  border-radius: var(--chakra-radii-md);
+}
+
+@media screen and (max-width: 780px) {
   .photosContainer {
     display: none;
-  }
-
-  .locationInfo.locationInfo {
-    display: block;
   }
 
   .slider.slider {
@@ -258,5 +322,19 @@
   .desktopImg,
   .locationContainer {
     display: none;
+  }
+
+  .nearbyLocationsContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .contentGrid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "name"
+      "badges"
+      "contact"
+      "location"
+      "hours";
   }
 }
