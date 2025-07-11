@@ -1,14 +1,13 @@
 "use client";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import { Badge, Card, Image, Tabs } from "@chakra-ui/react";
-import { FaLocationDot } from "react-icons/fa6";
+import { Badge, Card, Image, Tabs, Button } from "@chakra-ui/react";
+import { FaLocationDot, FaKey } from "react-icons/fa6";
 import { FaPhoneAlt } from "react-icons/fa";
 import { getBackground, getStateFullName } from "@/utils";
 import { MdOutlineLocationOff } from "react-icons/md";
 import { Spinner } from "@chakra-ui/react";
 import { TbWorldWww } from "react-icons/tb";
-import { Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import CitiesList from "@/components/CitiesList";
 import LocationCard from "@/components/LocationCard";
@@ -145,12 +144,21 @@ export default function Layout({ id }) {
               variant={"outline"}
             >
               <Tabs.List>
-                <Tabs.Trigger className={styles.tabTrigger} value="overview">
+                <Tabs.Trigger
+                  className={styles.tabTrigger}
+                  value="overview"
+                  onClick={() => {
+                    window.clarity("event", "overview_tab_clicked");
+                  }}
+                >
                   Overview
                 </Tabs.Trigger>
                 <Tabs.Trigger
                   className={styles.tabTrigger}
                   value="nearbyLocations"
+                  onClick={() => {
+                    window.clarity("event", "nearby_locations_tab_clicked");
+                  }}
                 >
                   Nearby Locations
                 </Tabs.Trigger>
@@ -158,23 +166,38 @@ export default function Layout({ id }) {
 
               <Tabs.Content value="overview" className={styles.tabContent}>
                 <div className={styles.contentGrid}>
-                  <Text
-                    className={`${styles.name} ${styles.cardHeader}`}
-                    textStyle="xl"
-                  >
-                    {location?.name}
-                  </Text>
+                  <p className={styles.name}>{location?.name}</p>
                   <div className={styles.badges}>
                     {Boolean(location.type) && (
-                      <Badge variant="solid" className={styles.badge} size="md">
+                      <Badge variant="solid" className={styles.badge} size="lg">
                         {location.type.replace().toLowerCase()}
                       </Badge>
                     )}
                     {Boolean(location.theme) && (
-                      <Badge variant="solid" className={styles.badge} size="md">
+                      <Badge variant="solid" className={styles.badge} size="lg">
                         {location.theme.replace(/_/g, " ").toLowerCase()}
                       </Badge>
                     )}
+                    <Button
+                      tabIndex="-1"
+                      className={styles.claimBtn}
+                      size="xs"
+                      asChild
+                    >
+                      <a
+                        href="https://forms.gle/DJvB4E68bdUrQ3EF6"
+                        target="_blank"
+                        onClick={() => {
+                          window.clarity(
+                            "event",
+                            "claim_this_course_btn_clicked",
+                          );
+                        }}
+                      >
+                        <FaKey />
+                        Own This Course? Claim Now
+                      </a>
+                    </Button>
                   </div>
                   <div className={styles.contactContainer}>
                     <p className={styles.cardHeader}>Contact</p>
@@ -182,18 +205,28 @@ export default function Layout({ id }) {
                       <a
                         href={`tel:${location.phoneNumber}`}
                         className={styles.cardLink}
+                        onClick={() => {
+                          window.clarity("event", "call_btn_clicked");
+                        }}
                       >
-                        <FaPhoneAlt />
-                        {location.phoneNumber}
+                        <Button className={styles.contactCTA} size="xs">
+                          <FaPhoneAlt />
+                          Call
+                        </Button>
                       </a>
                       {location.website && (
                         <a
                           className={styles.cardLink}
                           href={location.website}
                           target="_blank"
+                          onClick={() => {
+                            window.clarity("event", "website_btn_clicked");
+                          }}
                         >
-                          <TbWorldWww className={styles.websiteIcon} />
-                          Website
+                          <Button className={styles.contactCTA} size="xs">
+                            <TbWorldWww />
+                            Website
+                          </Button>
                         </a>
                       )}
                     </div>
@@ -253,6 +286,12 @@ export default function Layout({ id }) {
                         target="_blank"
                         className={styles.locationLink}
                         key={id}
+                        onClick={() => {
+                          window.clarity(
+                            "event",
+                            "nearby_location_card_clicked",
+                          );
+                        }}
                       >
                         <LocationCard
                           colorMode="dark"
@@ -269,7 +308,6 @@ export default function Layout({ id }) {
                       </a>
                     ),
                   )}
-                  {/* <ViewAllCard query={{ state: abbreviation.toUpperCase() }} /> */}
                 </div>
               </Tabs.Content>
             </Tabs.Root>

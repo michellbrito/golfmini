@@ -185,7 +185,7 @@
 
 .badges {
   display: flex;
-  gap: 25px;
+  gap: 20px;
   grid-area: badges;
 }
 
@@ -200,12 +200,7 @@
 
 .contact {
   display: flex;
-  gap: 25px;
-}
-
-.websiteIcon {
-  height: 22px;
-  width: 22px;
+  gap: 20px;
 }
 
 .hoursContainer {
@@ -261,7 +256,14 @@
 }
 
 .name {
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  display: flex;
+  font-size: var(--chakra-font-sizes-xl);
+  font-weight: bold;
   grid-area: name;
+  line-height: 1.875rem;
 }
 
 .locationInfo {
@@ -280,6 +282,19 @@
 .cardData iframe {
   margin-top: 10px;
   border-radius: var(--chakra-radii-md);
+}
+
+.contactCTA,
+.claimBtn {
+  background-color: #685752;
+  color: #fdf7f4;
+  font-size: 14px;
+}
+
+.claimBtn:hover,
+.contactCTA:hover {
+  background-color: #8eb486;
+  color: #685752;
 }
 
 @media screen and (max-width: 780px) {
