@@ -10,6 +10,10 @@ const limiter = rateLimit({
     limit: 100,
     standardHeaders: 'draft-8',
     legacyHeaders: false,
+    skip: (req) => {
+        const ua = req.headers['user-agent'] || '';
+        return /googlebot|feedfetcher-google|google-read-aloud|google-site-verification/i.test(ua);
+    },
 })
 
 app.use(express.json());
