@@ -27,7 +27,7 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title,
       description,
-      url: `https://golfmini.com/states/${abbreviation.toLowerCase()}/cities/${getCitySlug(name)}}`,
+      url: `https://golfmini.com/states/${abbreviation.toLowerCase()}/cities/${getCitySlug(name)}`,
       siteName: "GolfMini",
       images: [
         {
