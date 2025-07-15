@@ -34,10 +34,10 @@ export default function Layout({ id }) {
         const nearbyLocationsData = await nearbyLocationsResponse.json();
         setLocation(locationData.error ? null : locationData.location);
         setCities(locationData.error ? null : locationData.cities);
-        setIsLoading(false);
         setNearbyLocations(
           nearbyLocationsData.error ? null : nearbyLocationsData,
         );
+        setIsLoading(false);
       } catch (e) {
         setIsLoading(false);
       }

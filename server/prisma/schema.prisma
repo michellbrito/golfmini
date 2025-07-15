@@ -28,7 +28,7 @@ model Locations {
 
 model Photos {
   id         Int       @id @default(autoincrement())
-  url        String
+  url        String    @db.Text
   uploadedAt DateTime  @default(now())
   locationId Int
   location   Locations @relation(fields: [locationId], references: [id])
