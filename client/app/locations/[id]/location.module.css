@@ -223,12 +223,12 @@
 }
 
 .slider.slider :global(li.slick-active button::before) {
-  color: #fdf7f4;
+  color: rgba(255, 255, 255, 1);
   opacity: 1;
 }
 
 .slider.slider :global(li:not(.slick-active) button::before) {
-  color: #685752;
+  color: rgba(255, 255, 255, 0.5);
   opacity: 1;
 }
 
@@ -252,10 +252,6 @@
   gap: 20px;
 }
 
-.locationInfo {
-  grid-area: location;
-}
-
 .name {
   align-items: center;
   flex-wrap: wrap;
@@ -270,6 +266,7 @@
 .locationInfo {
   display: flex;
   flex-direction: column;
+  grid-area: location;
 }
 
 .locationInfo .cardHeader {
@@ -333,6 +330,8 @@
   .img4,
   .img5 {
     border-radius: 7px;
+    height: 57vw;
+    min-height: 293px;
   }
 
   .desktopImg,
@@ -345,12 +344,16 @@
   }
 
   .contentGrid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 100%;
     grid-template-areas:
       "name"
       "badges"
       "contact"
       "location"
       "hours";
+  }
+
+  .cardData iframe {
+    max-height: 151px;
   }
 }
