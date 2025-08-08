@@ -17,9 +17,11 @@
   },
   "dependencies": {
     "@prisma/client": "^6.1.0",
+    "axios": "^1.10.0",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "express-rate-limit": "^7.5.0",
+    "form-data": "^4.0.4",
     "zipcodes": "^8.0.0"
   },
   "imports": {

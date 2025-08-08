@@ -8,7 +8,6 @@ const {
   VALID_STATES,
   getDistance,
 } = require("#utils/db.js");
-const { getGooglePhotos } = require("#utils/api.js");
 
 router.get("/", async (req, res) => {
   let {
@@ -230,19 +229,6 @@ router.get("/:id", async (req, res) => {
         city: "asc",
       },
     });
-
-    if (location.photos.length === 0) {
-      const photos = await getGooglePhotos(location);
-      if (photos.length) {
-        location.photos = photos;
-        await prisma.photos.createMany({
-          data: photos.map((photo) => ({
-            url: photo.url,
-            locationId: location.id,
-          })),
-        });
-      }
-    }
 
     res.status(200).json({
       location,

@@ -1,3 +1,6 @@
+const { saveImageFromUrlToCloudflare } = require("#utils/api.js");
+const { prisma } = require("#utils/db.js");
+
 function transformGoogleHours(googleHours, locationId) {
   return googleHours
     .map((dayString) => {
@@ -83,6 +86,31 @@ const seedAllLocations = async () => {
 
   console.log("Seeding complete!");
 };
+
+const replaceSavedPhotosWithCloudflare = async () => {
+  let photos = await prisma.photos.findMany();
+  photos = photos.filter(
+    (photo) => !photo.url.includes("imagedelivery.net") && Boolean(photo.url)
+  );
+  for (const photo of photos) {
+    try {
+      const newUrl = await saveImageFromUrlToCloudflare(photo.url);
+      if (newUrl && newUrl !== photo.url) {
+        await prisma.photos.update({
+          where: { id: photo.id },
+          data: { url: newUrl },
+        });
+        console.log(
+          `Updated photo ${photo.id} for location ${photo.locationId}`
+        );
+      }
+    } catch (err) {
+      console.error(`Failed to update photo ${photo.id}:`, err);
+    }
+  }
+  console.log("All photos processed.");
+};
+
 
 module.exports = {
   transformGoogleHours,
